@@ -1,3 +1,5 @@
+
+'use client';
 import Image from 'next/image';
 import type { Match } from '@/lib/types';
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card';
@@ -6,6 +8,7 @@ import { Badge } from './ui/badge';
 import { format, formatDistanceToNow } from 'date-fns';
 import { Tv, PlayCircle } from 'lucide-react';
 import placeholderImage from '@/lib/placeholder-images.json';
+import { useState, useEffect } from 'react';
 
 interface MatchCardProps {
   match: Match;
@@ -15,9 +18,14 @@ interface MatchCardProps {
 const placeholder = placeholderImage.placeholderImages.find(p => p.id === 'match-placeholder');
 
 export function MatchCard({ match, onWatchLive }: MatchCardProps) {
+  const [isMounted, setIsMounted] = useState(false);
   const startTime = new Date(match.start_time * 1000);
   const formattedStartTime = format(startTime, 'p, MMM d');
   const canWatch = match.status === 'LIVE' && match.dai_url;
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   return (
     <Card className="flex flex-col h-full overflow-hidden bg-card hover:border-primary/50 transition-colors duration-300 group shadow-lg">
@@ -58,8 +66,14 @@ export function MatchCard({ match, onWatchLive }: MatchCardProps) {
           </Button>
         ) : (
           <div className="w-full text-center text-sm text-muted-foreground">
-            <p className="font-medium">{`Starts ${formatDistanceToNow(startTime, { addSuffix: true })}`}</p>
-            <p className="text-xs">{formattedStartTime}</p>
+            {isMounted ? (
+                <>
+                    <p className="font-medium">{`Starts ${formatDistanceToNow(startTime, { addSuffix: true })}`}</p>
+                    <p className="text-xs">{formattedStartTime}</p>
+                </>
+            ) : (
+                <div className="h-8" />
+            )}
           </div>
         )}
       </CardFooter>
