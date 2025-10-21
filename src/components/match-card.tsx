@@ -1,4 +1,3 @@
-
 'use client';
 import Image from 'next/image';
 import type { Match } from '@/lib/types';
@@ -20,7 +19,6 @@ const placeholder = placeholderImage.placeholderImages.find(p => p.id === 'match
 function parseStartTime(timeStr: string): Date | null {
     if (!timeStr) return null;
     try {
-        // Example format: "11:00:00 PM 21-10-2025"
         const parsedDate = parse(timeStr, 'hh:mm:ss a dd-MM-yyyy', new Date());
         return isNaN(parsedDate.getTime()) ? null : parsedDate;
     } catch (e) {
@@ -35,7 +33,7 @@ export function MatchCard({ match, onWatchLive }: MatchCardProps) {
   const startTime = parseStartTime(match.startTime);
   
   const formattedStartTime = startTime ? format(startTime, 'p, MMM d') : 'TBA';
-  const canWatch = match.status === 'LIVE' && match.dai_url;
+  const canWatch = match.status === 'LIVE' && (match.dai_url || match.adfree_url);
 
   useEffect(() => {
     setIsMounted(true);
@@ -79,14 +77,14 @@ export function MatchCard({ match, onWatchLive }: MatchCardProps) {
             Watch Live
           </Button>
         ) : (
-          <div className="w-full text-center text-sm text-muted-foreground">
+          <div className="w-full text-center text-sm text-muted-foreground h-12 flex flex-col justify-center">
             {isMounted && startTime ? (
                 <>
                     <p className="font-medium">{`Starts ${formatDistanceToNow(startTime, { addSuffix: true })}`}</p>
                     <p className="text-xs">{formattedStartTime}</p>
                 </>
             ) : (
-                <div className="h-8">{startTime ? formattedStartTime : 'Time to be announced'}</div>
+                <div>{startTime ? formattedStartTime : 'Time to be announced'}</div>
             )}
           </div>
         )}
