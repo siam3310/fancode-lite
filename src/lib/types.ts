@@ -2,13 +2,22 @@ export interface Match {
   match_id: number;
   title: string;
   status: 'LIVE' | 'UPCOMING' | 'COMPLETED';
-  start_time: number;
+  start_time: number; // This will be converted from string at fetch time
+  startTime: string; // Original string time
   image_url: string;
   tour: Tour;
   squad_a: Squad;
   squad_b: Squad;
   streaming_sources: StreamingSource[];
   dai_url?: string;
+  // New fields from the new API
+  event_category: string;
+  team_1: string;
+  team_2: string;
+  event_name: string;
+  match_name: string;
+  adfree_url?: string;
+  src?: string;
 }
 
 export interface Tour {
@@ -29,8 +38,8 @@ export interface StreamingSource {
 }
 
 export interface ApiData {
-  matches: Match[];
-  meta: {
+  matches: any[]; // Using any to accommodate the change in structure temporarily
+  meta?: {
     last_updated_at: string;
   };
 }

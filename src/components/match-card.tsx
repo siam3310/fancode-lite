@@ -5,7 +5,7 @@ import type { Match } from '@/lib/types';
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card';
 import { Button } from './ui/button';
 import { Badge } from './ui/badge';
-import { format, formatDistanceToNow } from 'date-fns';
+import { format, formatDistanceToNow, parse } from 'date-fns';
 import { Tv, PlayCircle } from 'lucide-react';
 import placeholderImage from '@/lib/placeholder-images.json';
 import { useState, useEffect } from 'react';
@@ -17,10 +17,24 @@ interface MatchCardProps {
 
 const placeholder = placeholderImage.placeholderImages.find(p => p.id === 'match-placeholder');
 
+function parseStartTime(timeStr: string): Date | null {
+    if (!timeStr) return null;
+    try {
+        // Example format: "11:00:00 PM 21-10-2025"
+        const parsedDate = parse(timeStr, 'hh:mm:ss a dd-MM-yyyy', new Date());
+        return isNaN(parsedDate.getTime()) ? null : parsedDate;
+    } catch (e) {
+        console.error("Failed to parse date:", timeStr, e);
+        return null;
+    }
+}
+
 export function MatchCard({ match, onWatchLive }: MatchCardProps) {
   const [isMounted, setIsMounted] = useState(false);
-  const startTime = new Date(match.start_time * 1000);
-  const formattedStartTime = format(startTime, 'p, MMM d');
+  
+  const startTime = parseStartTime(match.startTime);
+  
+  const formattedStartTime = startTime ? format(startTime, 'p, MMM d') : 'TBA';
   const canWatch = match.status === 'LIVE' && match.dai_url;
 
   useEffect(() => {
@@ -56,7 +70,7 @@ export function MatchCard({ match, onWatchLive }: MatchCardProps) {
         <h3 className="font-headline text-xl leading-tight text-foreground flex-1 group-hover:text-primary transition-colors">
           {match.title}
         </h3>
-        <p className="text-sm text-muted-foreground mt-2">{match.squad_a.short_name} vs {match.squad_b.short_name}</p>
+        <p className="text-sm text-muted-foreground mt-2">{match.squad_a.name} vs {match.squad_b.name}</p>
       </CardContent>
       <CardFooter className="p-4 border-t">
         {canWatch ? (
@@ -66,13 +80,13 @@ export function MatchCard({ match, onWatchLive }: MatchCardProps) {
           </Button>
         ) : (
           <div className="w-full text-center text-sm text-muted-foreground">
-            {isMounted ? (
+            {isMounted && startTime ? (
                 <>
                     <p className="font-medium">{`Starts ${formatDistanceToNow(startTime, { addSuffix: true })}`}</p>
                     <p className="text-xs">{formattedStartTime}</p>
                 </>
             ) : (
-                <div className="h-8" />
+                <div className="h-8">{startTime ? formattedStartTime : 'Time to be announced'}</div>
             )}
           </div>
         )}
