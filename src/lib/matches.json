@@ -1,0 +1,80 @@
+
+{
+  "matches": [
+    {
+      "match_id": 1,
+      "title": "New Zealand vs South Africa, 1st ODI",
+      "status": "LIVE",
+      "start_time": 1709299800,
+      "image_url": "https://picsum.photos/seed/101/600/400",
+      "tour": { "tour_id": 1, "name": "South Africa tour of New Zealand" },
+      "squad_a": { "squad_id": 1, "name": "New Zealand", "short_name": "NZ", "image_url": "" },
+      "squad_b": { "squad_id": 2, "name": "South Africa", "short_name": "SA", "image_url": "" },
+      "streaming_sources": [],
+      "dai_url": "https://dai.google.com/linear/hls/event/Sid4_324Co-aT1jMh-owRQ/master.m3u8"
+    },
+    {
+      "match_id": 2,
+      "title": "India vs England, 5th Test",
+      "status": "LIVE",
+      "start_time": 1709280000,
+      "image_url": "https://picsum.photos/seed/102/600/400",
+      "tour": { "tour_id": 2, "name": "England tour of India" },
+      "squad_a": { "squad_id": 3, "name": "India", "short_name": "IND", "image_url": "" },
+      "squad_b": { "squad_id": 4, "name": "England", "short_name": "ENG", "image_url": "" },
+      "streaming_sources": [],
+      "dai_url": "https://dai.google.com/linear/hls/event/Sid4_324Co-aT1jMh-owRQ/master.m3u8"
+    },
+    {
+      "match_id": 3,
+      "title": "Australia vs West Indies, 1st T20I",
+      "status": "UPCOMING",
+      "start_time": 1709384400,
+      "image_url": "https://picsum.photos/seed/103/600/400",
+      "tour": { "tour_id": 3, "name": "West Indies tour of Australia" },
+      "squad_a": { "squad_id": 5, "name": "Australia", "short_name": "AUS", "image_url": "" },
+      "squad_b": { "squad_id": 6, "name": "West Indies", "short_name": "WI", "image_url": "" },
+      "streaming_sources": [],
+      "dai_url": null
+    },
+    {
+      "match_id": 4,
+      "title": "Pakistan vs Sri Lanka, 2nd Test",
+      "status": "UPCOMING",
+      "start_time": 1709470800,
+      "image_url": "https://picsum.photos/seed/104/600/400",
+      "tour": { "tour_id": 4, "name": "Sri Lanka tour of Pakistan" },
+      "squad_a": { "squad_id": 7, "name": "Pakistan", "short_name": "PAK", "image_url": "" },
+      "squad_b": { "squad_id": 8, "name": "Sri Lanka", "short_name": "SL", "image_url": "" },
+      "streaming_sources": [],
+      "dai_url": null
+    },
+    {
+      "match_id": 5,
+      "title": "Legends League Cricket - Match 5",
+      "status": "UPCOMING",
+      "start_time": 1709557200,
+      "image_url": "https://picsum.photos/seed/105/600/400",
+      "tour": { "tour_id": 5, "name": "Legends League Cricket" },
+      "squad_a": { "squad_id": 9, "name": "India Maharajas", "short_name": "IM", "image_url": "" },
+      "squad_b": { "squad_id": 10, "name": "Asia Lions", "short_name": "AL", "image_url": "" },
+      "streaming_sources": [],
+      "dai_url": null
+    },
+    {
+      "match_id": 6,
+      "title": "Bangladesh vs Afghanistan, 3rd ODI",
+      "status": "COMPLETED",
+      "start_time": 1709190000,
+      "image_url": "https://picsum.photos/seed/106/600/400",
+      "tour": { "tour_id": 6, "name": "Afghanistan tour of Bangladesh" },
+      "squad_a": { "squad_id": 11, "name": "Bangladesh", "short_name": "BAN", "image_url": "" },
+      "squad_b": { "squad_id": 12, "name": "Afghanistan", "short_name": "AFG", "image_url": "" },
+      "streaming_sources": [],
+      "dai_url": null
+    }
+  ],
+  "meta": {
+    "last_updated_at": "2024-03-01T12:00:00.000Z"
+  }
+}

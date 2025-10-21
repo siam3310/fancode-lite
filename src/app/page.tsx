@@ -2,33 +2,25 @@ import type { Metadata } from 'next';
 import { MatchList } from '@/components/match-list';
 import type { ApiData, Match } from '@/lib/types';
 import { format } from 'date-fns';
+import data from '@/lib/matches.json';
 
 export const metadata: Metadata = {
   title: 'Fancode Lite',
   description: 'Live scores and streaming for your favorite matches.',
 };
 
-async function getMatches(): Promise<ApiData | null> {
+function getMatches(): ApiData | null {
   try {
-    const res = await fetch('https://fan-code-api.vercel.app/api/v2/matches?status=all&per_page=1000', {
-      headers: {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
-      },
-      next: { revalidate: 60 }, // Revalidate every minute
-    });
-    if (!res.ok) {
-      console.error('Failed to fetch matches:', res.statusText);
-      return null;
-    }
-    return res.json();
+    // Load data from the local JSON file
+    return data as ApiData;
   } catch (error) {
-    console.error('Error fetching matches:', error);
+    console.error('Error reading local match data:', error);
     return null;
   }
 }
 
-export default async function Home() {
-  const data = await getMatches();
+export default function Home() {
+  const data = getMatches();
 
   if (!data) {
     return (
