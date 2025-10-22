@@ -5,7 +5,7 @@ import type { Match } from '@/lib/types';
 import { MatchCard } from './match-card';
 import { Button } from './ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
-import { Calendar, ListFilter, X, Tv } from 'lucide-react';
+import { Calendar, ListFilter } from 'lucide-react';
 import { ClapprPlayer } from './clappr-player';
 
 interface MatchListProps {
@@ -47,25 +47,17 @@ export function MatchList({ initialMatches, categories }: MatchListProps) {
 
   return (
     <div className="container mx-auto p-4 md:px-8">
-        <div className="mb-8">
-        <div className="aspect-video w-full bg-card border rounded-lg overflow-hidden shadow-lg">
-            {streamingUrl ? (
-            <ClapprPlayer source={streamingUrl} />
-            ) : (
-            <div className="w-full h-full flex flex-col items-center justify-center text-center p-4">
-                <Tv className="w-16 h-16 text-muted-foreground mb-4" />
-                <h2 className="text-2xl font-headline text-foreground">Live Player</h2>
-                <p className="text-muted-foreground mt-1">Select a live match to start streaming.</p>
-            </div>
-            )}
-        </div>
-        {selectedMatch && (
-            <div className="bg-card p-4 rounded-b-lg -mt-1 border border-t-0">
-            <h3 className="font-bold text-lg text-primary">{selectedMatch.match_name}</h3>
-            <p className="text-sm text-muted-foreground">{selectedMatch.event_name}</p>
+        {selectedMatch && streamingUrl && (
+            <div className="mb-8">
+                <div className="aspect-video w-full bg-card rounded-lg overflow-hidden shadow-lg">
+                    <ClapprPlayer source={streamingUrl} />
+                </div>
+                <div className="bg-card p-4 rounded-b-lg -mt-1">
+                    <h3 className="font-bold text-lg text-primary">{selectedMatch.match_name}</h3>
+                    <p className="text-sm text-muted-foreground">{selectedMatch.event_name}</p>
+                </div>
             </div>
         )}
-        </div>
       <div className="flex flex-col md:flex-row gap-4 mb-8 sticky top-[65px] bg-background py-4 z-10">
         <div className="flex items-center gap-2 flex-wrap">
             {statusFilters.map((filter) => (

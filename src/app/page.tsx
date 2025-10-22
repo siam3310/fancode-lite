@@ -1,12 +1,8 @@
 
 import type { Metadata } from 'next';
 import { MatchList } from '@/components/match-list';
-import { ClapprPlayer } from '@/components/clappr-player';
 import type { ApiData, Match } from '@/lib/types';
 import { format, parse } from 'date-fns';
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { Terminal, Tv } from 'lucide-react';
-import { Skeleton } from '@/components/ui/skeleton';
 
 function parseStartTime(timeStr: string): number {
     try {
@@ -62,7 +58,6 @@ async function getMatches(): Promise<ApiData | null> {
   }
 }
 
-// This is a server component now
 export default async function Home() {
   const data = await getMatches();
   
@@ -83,8 +78,8 @@ export default async function Home() {
 
   return (
     <div className="flex flex-col min-h-screen bg-background">
-      <header className="sticky top-0 z-20 w-full border-b border-border/40 bg-background">
-        <div className="container flex h-16 items-center justify-between px-4 md:px-8">
+      <header className="sticky top-0 z-20 w-full bg-background">
+        <div className="container flex h-16 items-center justify-center px-4 md:px-8">
             <div className="flex items-center gap-2 text-primary" aria-label="Fancode Lite">
                 <svg
                     xmlns="http://www.w3.org/2000/svg"

@@ -40,7 +40,7 @@ export function MatchCard({ match, onWatchLive }: MatchCardProps) {
   }, []);
 
   return (
-    <Card className="flex flex-col h-full overflow-hidden bg-card hover:border-primary/50 transition-colors duration-300 group shadow-lg">
+    <Card className="flex flex-col h-full overflow-hidden bg-card shadow-lg border-0">
       <CardHeader className="p-0 relative">
         <div className="aspect-video relative">
             <Image
@@ -48,7 +48,7 @@ export function MatchCard({ match, onWatchLive }: MatchCardProps) {
                 alt={match.title}
                 fill
                 sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                className="object-fill object-center transition-all duration-300 grayscale group-hover:grayscale-0"
+                className="object-fill object-center grayscale hover:grayscale-0"
                 data-ai-hint={placeholder?.imageHint || 'sport match'}
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
@@ -65,12 +65,12 @@ export function MatchCard({ match, onWatchLive }: MatchCardProps) {
         )}
       </CardHeader>
       <CardContent className="flex-1 p-4 flex flex-col">
-        <h3 className="font-headline text-xl leading-tight text-foreground flex-1 group-hover:text-primary transition-colors">
+        <h3 className="font-headline text-xl leading-tight text-foreground flex-1">
           {match.match_name}
         </h3>
         <p className="text-sm text-muted-foreground mt-2">{match.event_name}</p>
       </CardContent>
-      <CardFooter className="p-4 border-t">
+      <CardFooter className="p-4">
         {canWatch ? (
           <Button onClick={() => onWatchLive(match)} className="w-full font-bold">
             <PlayCircle className="mr-2 h-5 w-5" />

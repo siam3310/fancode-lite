@@ -1,0 +1,22 @@
+#!/bin/bash
+
+# Check if a commit message is provided
+if [ -z "$1" ]; then
+  echo "Error: Please provide a commit message."
+  echo "Usage: ./update.sh \"Your commit message\""
+  exit 1
+fi
+
+# Add all changed files
+echo "Adding files..."
+git add .
+
+# Commit with the provided message
+echo "Committing changes..."
+git commit -m "$1"
+
+# Push to the remote repository
+echo "Pushing to remote..."
+git push
+
+echo "Successfully updated the repository."
