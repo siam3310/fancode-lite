@@ -60,3 +60,4 @@ Now, run the following commands one by one.
 When you run the `git push` command, you might be asked for your GitHub username and password. **For the password, use a Personal Access Token**, not your actual GitHub password.
 
 That's it! After these steps, your code will be successfully uploaded to your GitHub repository.
+# fancode-lite
