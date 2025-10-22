@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useId } from 'react';
 
-// This tells TypeScript that 'Clappr' and its plugins exist in the global scope.
+// This tells TypeScript that 'Clappr' exists in the global scope.
 declare const Clappr: any;
 
 interface ClapprPlayerProps {
@@ -14,9 +14,9 @@ export function ClapprPlayer({ source }: ClapprPlayerProps) {
   const containerId = useId();
 
   useEffect(() => {
-    // Ensure Clappr script and the level selector plugin are loaded.
-    if (typeof Clappr === 'undefined' || typeof Clappr.LevelSelector === 'undefined' || !source) {
-      console.warn('Clappr or its plugins are not available.');
+    // Ensure Clappr script is loaded.
+    if (typeof Clappr === 'undefined' || !source) {
+      console.warn('Clappr is not available.');
       return;
     }
 
@@ -32,10 +32,6 @@ export function ClapprPlayer({ source }: ClapprPlayerProps) {
         height: '100%',
         autoPlay: true,
         muted: false,
-        plugins: [Clappr.LevelSelector], // Add the plugin here
-        levelSelectorConfig: {
-          title: 'Quality', // Title for the quality selection menu
-        },
       });
     } catch (e) {
         console.error("Error creating Clappr player:", e);
