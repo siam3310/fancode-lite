@@ -46,7 +46,7 @@ export function MatchList({ initialMatches, categories }: MatchListProps) {
   }, [initialMatches, statusFilter, categoryFilter]);
 
   return (
-    <div className="container mx-auto px-4 pb-4 md:px-8 md:pb-8">
+    <div className="container mx-auto px-4 md:px-8">
       {selectedMatch && streamingUrl ? (
         <div className="mb-8">
           <div className="aspect-video w-full bg-card rounded-lg overflow-hidden shadow-lg">
