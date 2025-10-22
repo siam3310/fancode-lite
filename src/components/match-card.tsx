@@ -5,6 +5,7 @@ import { Button } from './ui/button';
 import { format, parse } from 'date-fns';
 import placeholderImage from '@/lib/placeholder-images.json';
 import { useState, useEffect } from 'react';
+import { Separator } from './ui/separator';
 
 interface MatchCardProps {
   match: Match;
@@ -73,17 +74,19 @@ export function MatchCard({ match, onWatchLive }: MatchCardProps) {
                 </div>
             </div>
         </div>
+        
+        <Separator className="bg-zinc-800" />
 
-        <div className="flex w-full min-w-72 grow flex-col items-stretch justify-center gap-2 p-4 pt-0">
+        <div className="flex w-full min-w-72 grow flex-col items-stretch justify-center gap-2 p-4">
             {canWatch ? (
                 <Button 
                     onClick={() => onWatchLive(match)}
-                    className="mt-4 flex items-center justify-center rounded-sm bg-white py-3 px-4 text-center text-black font-bold uppercase tracking-wider transition-transform duration-200 hover:bg-zinc-200 active:scale-95"
+                    className="flex items-center justify-center rounded-sm bg-white py-3 px-4 text-center text-black font-bold uppercase tracking-wider transition-transform duration-200 hover:bg-zinc-200 active:scale-95"
                 >
                     Watch
                 </Button>
             ) : (
-                <div className="mt-4 flex items-center justify-center rounded-sm border border-zinc-700 bg-zinc-800/50 py-3 px-4 text-center">
+                <div className="flex items-center justify-center rounded-sm border border-zinc-700 bg-zinc-800/50 py-3 px-4 text-center">
                     {isMounted && startTime ? (
                         <p className="text-zinc-300 text-base font-normal leading-normal">
                             Starts at {formattedStartTime}
