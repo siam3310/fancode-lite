@@ -5,7 +5,7 @@ import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card'
 import { Button } from './ui/button';
 import { Badge } from './ui/badge';
 import { format, formatDistanceToNow, parse } from 'date-fns';
-import { Tv, PlayCircle } from 'lucide-react';
+import { PlayCircle } from 'lucide-react';
 import placeholderImage from '@/lib/placeholder-images.json';
 import { useState, useEffect } from 'react';
 
@@ -48,27 +48,27 @@ export function MatchCard({ match, onWatchLive }: MatchCardProps) {
                 alt={match.title}
                 fill
                 sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                className="object-cover transition-transform duration-300 group-hover:scale-105"
+                className="object-cover transition-all duration-300 grayscale group-hover:grayscale-0"
                 data-ai-hint={placeholder?.imageHint || 'sport match'}
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
         </div>
         <div className="absolute top-2 left-2">
-            <Badge variant="secondary" className="font-semibold uppercase text-xs backdrop-blur-sm bg-background/50">
-                {match.tour.name}
+            <Badge variant="secondary" className="font-semibold uppercase text-xs bg-background/70">
+                {match.event_category}
             </Badge>
         </div>
         {match.status === 'LIVE' && (
-            <Badge variant="destructive" className="absolute top-2 right-2 flex items-center gap-1">
-                <Tv className="h-3 w-3 animate-pulse"/> LIVE
+            <Badge variant="destructive" className="absolute top-2 right-2 flex items-center gap-2">
+                <div className="live-indicator"></div> LIVE
             </Badge>
         )}
       </CardHeader>
       <CardContent className="flex-1 p-4 flex flex-col">
         <h3 className="font-headline text-xl leading-tight text-foreground flex-1 group-hover:text-primary transition-colors">
-          {match.title}
+          {match.match_name}
         </h3>
-        <p className="text-sm text-muted-foreground mt-2">{match.squad_a.name} vs {match.squad_b.name}</p>
+        <p className="text-sm text-muted-foreground mt-2">{match.event_name}</p>
       </CardContent>
       <CardFooter className="p-4 border-t">
         {canWatch ? (

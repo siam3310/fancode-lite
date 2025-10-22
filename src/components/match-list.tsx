@@ -4,11 +4,11 @@ import type { Match } from '@/lib/types';
 import { MatchCard } from './match-card';
 import { Button } from './ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
-import { Tv, Calendar, ListFilter, X } from 'lucide-react';
+import { Calendar, ListFilter, X } from 'lucide-react';
 
 interface MatchListProps {
   initialMatches: Match[];
-  categories: string[];
+  categories: (string | undefined)[];
   onWatchLive: (match: Match) => void;
 }
 
@@ -33,7 +33,7 @@ export function MatchList({ initialMatches, categories, onWatchLive }: MatchList
 
   return (
     <>
-      <div className="flex flex-col md:flex-row gap-4 mb-8 sticky top-[65px] bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 py-4 z-10">
+      <div className="flex flex-col md:flex-row gap-4 mb-8 sticky top-[65px] bg-background py-4 z-10">
         <div className="flex items-center gap-2 flex-wrap">
             {statusFilters.map((filter) => (
             <Button
@@ -42,7 +42,7 @@ export function MatchList({ initialMatches, categories, onWatchLive }: MatchList
                 onClick={() => setStatusFilter(filter)}
                 className="rounded-full h-8 px-4 text-sm"
             >
-                {filter === 'LIVE Now' && <Tv className="mr-2 h-4 w-4 text-red-500 animate-pulse" />}
+                {filter === 'LIVE Now' && <div className="live-indicator mr-2"></div>}
                 {filter === 'UPCOMING' && <Calendar className="mr-2 h-4 w-4" />}
                 {filter}
             </Button>
@@ -57,7 +57,7 @@ export function MatchList({ initialMatches, categories, onWatchLive }: MatchList
             <SelectContent>
               <SelectItem value="All">All Categories</SelectItem>
               {categories.map((category) => (
-                <SelectItem key={category} value={category}>
+                category && <SelectItem key={category} value={category}>
                   {category}
                 </SelectItem>
               ))}

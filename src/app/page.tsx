@@ -14,7 +14,7 @@ function parseStartTime(timeStr: string): number {
     try {
         if (!timeStr) return 0;
         const parsedDate = parse(timeStr, 'hh:mm:ss a dd-MM-yyyy', new Date());
-        return isNaN(parsedDate.getTime()) ? 0 : parsedDate.getTime() / 1000;
+        return isNaN(parsedDate.getTime()) ? 0 : parsedDate.getTime();
     } catch (e) {
         console.error("Failed to parse date:", timeStr, e);
         return 0;
@@ -115,11 +115,11 @@ export default function Home() {
   });
   
   const categories = [...new Set(allMatches.filter(match => match.event_category).map((match) => match.event_category))].sort();
-  const lastUpdatedAt = data?.meta ? format(new Date(data.meta.last_updated_at), "PPP p") : 'N/A';
+  const lastUpdatedAt = data?.meta?.last_updated_at ? format(new Date(data.meta.last_updated_at), "PPP p") : 'N/A';
 
   return (
     <div className="flex flex-col min-h-screen bg-background">
-      <header className="sticky top-0 z-20 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      <header className="sticky top-0 z-20 w-full border-b border-border/40 bg-background">
         <div className="container flex h-16 items-center justify-between px-4 md:px-8">
           <h1 className="text-3xl font-headline tracking-wider text-primary">FANCODE LITE</h1>
         </div>
@@ -141,8 +141,8 @@ export default function Home() {
             </div>
             {selectedMatch && (
               <div className="bg-card p-4 rounded-b-lg -mt-1 border border-t-0">
-                <h3 className="font-bold text-lg text-primary">{selectedMatch.title}</h3>
-                <p className="text-sm text-muted-foreground">{selectedMatch.squad_a.name} vs {selectedMatch.squad_b.name}</p>
+                <h3 className="font-bold text-lg text-primary">{selectedMatch.match_name}</h3>
+                <p className="text-sm text-muted-foreground">{selectedMatch.event_name}</p>
               </div>
             )}
           </div>
