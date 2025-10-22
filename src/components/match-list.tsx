@@ -45,13 +45,13 @@ export function MatchList({ initialMatches, categories }: MatchListProps) {
   }, [initialMatches, statusFilter, categoryFilter]);
 
   return (
-    <div className="container mx-auto p-4 md:px-8">
+    <div className="container mx-auto px-4 pb-4 md:px-8 md:pb-8">
         {selectedMatch && streamingUrl && (
             <div className="mb-8">
                 <div className="aspect-video w-full bg-card rounded-lg overflow-hidden shadow-lg">
                     <ClapprPlayer source={streamingUrl} />
                 </div>
-                <div className="bg-[#181818] p-4 rounded-b-lg -mt-1 border border-zinc-800 border-t-0">
+                <div className="bg-[#181818] p-4 rounded-b-lg -mt-1">
                     <h3 className="font-bold text-lg text-primary font-mono uppercase tracking-wider">{selectedMatch.match_name}</h3>
                     <p className="text-sm text-zinc-400 font-mono uppercase tracking-wider">{selectedMatch.event_name}</p>
                 </div>
@@ -64,7 +64,7 @@ export function MatchList({ initialMatches, categories }: MatchListProps) {
                 key={filter}
                 variant={statusFilter === filter ? 'default' : 'secondary'}
                 onClick={() => setStatusFilter(filter)}
-                className="rounded-sm h-8 px-4 text-xs font-bold uppercase tracking-wider border border-zinc-700"
+                className="rounded-sm h-8 px-4 text-xs font-bold uppercase tracking-wider"
             >
                 {filter === 'LIVE Now' && <div className="h-2 w-2 rounded-full bg-red-600 mr-2"></div>}
                 {filter}
@@ -73,7 +73,7 @@ export function MatchList({ initialMatches, categories }: MatchListProps) {
         </div>
         <div className="relative md:w-64">
           <Select value={categoryFilter} onValueChange={setCategoryFilter}>
-            <SelectTrigger className="w-full rounded-sm h-8 text-xs font-bold uppercase tracking-wider border border-zinc-700">
+            <SelectTrigger className="w-full rounded-sm h-8 text-xs font-bold uppercase tracking-wider">
                 <ListFilter className="mr-2 h-4 w-4" />
                 <SelectValue placeholder="Filter by category..." />
             </SelectTrigger>
