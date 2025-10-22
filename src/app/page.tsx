@@ -1,4 +1,3 @@
-
 import type { Metadata } from 'next';
 import { MatchList } from '@/components/match-list';
 import type { ApiData, Match } from '@/lib/types';

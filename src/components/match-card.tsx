@@ -37,13 +37,13 @@ export function MatchCard({ match, onWatchLive }: MatchCardProps) {
   }, []);
 
   return (
-    <div className="relative flex flex-col items-stretch justify-start rounded-md bg-[#181818] overflow-hidden border border-zinc-800">
-        <div className="relative w-full bg-center bg-no-repeat aspect-video bg-cover">
+    <div className="relative flex flex-col items-stretch justify-start rounded-md bg-[#181818] overflow-hidden">
+        <div className="relative w-full bg-center bg-no-repeat aspect-video bg-cover grayscale">
             <Image
                 src={match.image_url || placeholder?.imageUrl || '/fallback.png'}
                 alt={match.title}
                 fill
-                className="object-cover object-center"
+                className="object-fill object-center"
                 data-ai-hint={placeholder?.imageHint || 'sport match'}
             />
             {match.event_category && (
@@ -63,7 +63,7 @@ export function MatchCard({ match, onWatchLive }: MatchCardProps) {
             )}
             <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-[#181818] to-transparent"></div>
             <div className="absolute inset-x-0 bottom-0 p-4 pt-16 flex flex-col items-start justify-end">
-                <div className="bg-zinc-900/80 backdrop-blur-sm p-3 border border-zinc-700 w-full">
+                <div className="bg-zinc-900/80 backdrop-blur-sm p-3 w-full">
                     <p className="text-zinc-200 text-xl font-mono uppercase leading-tight tracking-wider text-left">
                         {match.match_name}
                     </p>
@@ -78,12 +78,12 @@ export function MatchCard({ match, onWatchLive }: MatchCardProps) {
             {canWatch ? (
                 <Button 
                     onClick={() => onWatchLive(match)}
-                    className="mt-4 flex items-center justify-center rounded-sm bg-white py-3 px-4 text-center text-black font-bold uppercase tracking-wider transition-transform duration-200 hover:bg-zinc-200 active:scale-95"
+                    className="mt-4 flex items-center justify-center rounded-sm bg-white py-3 px-4 text-center text-black font-bold uppercase tracking-wider"
                 >
                     Watch
                 </Button>
             ) : (
-                <div className="mt-4 flex items-center justify-center rounded-sm border border-zinc-700 bg-zinc-800/50 py-3 px-4 text-center">
+                <div className="mt-4 flex items-center justify-center rounded-sm bg-zinc-800/50 py-3 px-4 text-center">
                     {isMounted && startTime ? (
                         <p className="text-zinc-300 text-base font-normal leading-normal">
                             Starts at {formattedStartTime}

@@ -1,11 +1,10 @@
-
 'use client';
 import { useMemo, useState } from 'react';
 import type { Match } from '@/lib/types';
 import { MatchCard } from './match-card';
 import { Button } from './ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
-import { Calendar, ListFilter } from 'lucide-react';
+import { ListFilter } from 'lucide-react';
 import { ClapprPlayer } from './clappr-player';
 
 interface MatchListProps {
@@ -53,8 +52,8 @@ export function MatchList({ initialMatches, categories }: MatchListProps) {
                     <ClapprPlayer source={streamingUrl} />
                 </div>
                 <div className="bg-card p-4 rounded-b-lg -mt-1">
-                    <h3 className="font-bold text-lg text-primary">{selectedMatch.match_name}</h3>
-                    <p className="text-sm text-muted-foreground">{selectedMatch.event_name}</p>
+                    <h3 className="font-bold text-lg text-primary font-mono uppercase tracking-wider">{selectedMatch.match_name}</h3>
+                    <p className="text-sm text-zinc-400 font-mono uppercase tracking-wider">{selectedMatch.event_name}</p>
                 </div>
             </div>
         )}
@@ -65,17 +64,16 @@ export function MatchList({ initialMatches, categories }: MatchListProps) {
                 key={filter}
                 variant={statusFilter === filter ? 'default' : 'secondary'}
                 onClick={() => setStatusFilter(filter)}
-                className="rounded-full h-8 px-4 text-sm"
+                className="rounded-full h-8 px-4 text-sm font-bold uppercase tracking-wider"
             >
                 {filter === 'LIVE Now' && <div className="live-indicator mr-2"></div>}
-                {filter === 'UPCOMING' && <Calendar className="mr-2 h-4 w-4" />}
                 {filter}
             </Button>
             ))}
         </div>
         <div className="relative md:w-64">
           <Select value={categoryFilter} onValueChange={setCategoryFilter}>
-            <SelectTrigger className="w-full rounded-full h-8 text-sm">
+            <SelectTrigger className="w-full rounded-full h-8 text-sm font-bold uppercase tracking-wider">
                 <ListFilter className="mr-2 h-4 w-4" />
                 <SelectValue placeholder="Filter by category..." />
             </SelectTrigger>
