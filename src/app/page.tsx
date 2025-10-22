@@ -87,7 +87,7 @@ export default async function Home() {
             <div className="flex items-center gap-2 text-primary" aria-label="Fancode Lite">
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 125 20"
+                    viewBox="0 0 120 20"
                     className="h-6 w-auto"
                     fill="currentColor"
                     aria-hidden="true"
@@ -97,18 +97,18 @@ export default async function Home() {
                         y="15"
                         fontFamily="'Bebas Neue', sans-serif"
                         fontSize="20"
-                        letterSpacing="0.02em"
+                        letterSpacing="-0.05em"
                         className="font-headline"
                     >
                         FANCODE
                     </text>
                     <text
-                        x="80"
+                        x="75"
                         y="15"
                         fontFamily="'Roboto', sans-serif"
                         fontSize="18"
                         fontWeight="300"
-                        letterSpacing="0.02em"
+                        letterSpacing="-0.05em"
                     >
                         LITE
                     </text>
@@ -126,6 +126,7 @@ export default async function Home() {
 
       <footer className="py-6 text-center text-sm text-muted-foreground">
         <p>Last updated: {lastUpdatedAt}</p>
+        <p className="mt-2">Fancode API data provided by drmlive.</p>
       </footer>
     </div>
   );
