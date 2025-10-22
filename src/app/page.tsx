@@ -84,7 +84,7 @@ export default async function Home() {
     <div className="flex flex-col min-h-screen bg-background">
       <header className="sticky top-0 z-20 w-full bg-background">
         <div className="container flex h-16 items-center justify-center px-4 md:px-8">
-            <div className="flex items-center gap-2 text-primary" aria-label="Fancode Lite">
+            <div className="flex items-center gap-2 text-primary" aria-label="Fancode BD">
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 120 20"
@@ -110,7 +110,7 @@ export default async function Home() {
                         fontWeight="300"
                         letterSpacing="-0.05em"
                     >
-                        LITE
+                        BD
                     </text>
                 </svg>
             </div>

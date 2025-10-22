@@ -3,8 +3,8 @@ import { Toaster } from "@/components/ui/toaster"
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'Fancode Lite',
-  description: 'Live scores and streaming for your favorite matches.',
+  title: 'Fancode BD',
+  description: 'Live scores and streaming for your favorite matches in Bangladesh.',
 };
 
 export default function RootLayout({
