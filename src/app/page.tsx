@@ -103,7 +103,7 @@ export default async function Home() {
                         FANCODE
                     </text>
                     <text
-                        x="75"
+                        x="72"
                         y="15"
                         fontFamily="'Roboto', sans-serif"
                         fontSize="18"
