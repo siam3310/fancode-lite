@@ -103,12 +103,12 @@ export default async function Home() {
                         FANCODE
                     </text>
                     <text
-                        x="72"
+                        x="68"
                         y="15"
-                        fontFamily="'Roboto', sans-serif"
-                        fontSize="18"
-                        fontWeight="300"
+                        fontFamily="'Bebas Neue', sans-serif"
+                        fontSize="20"
                         letterSpacing="-0.05em"
+                        className="font-headline"
                     >
                         BD
                     </text>
