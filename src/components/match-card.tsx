@@ -1,11 +1,8 @@
 'use client';
 import Image from 'next/image';
 import type { Match } from '@/lib/types';
-import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card';
 import { Button } from './ui/button';
-import { Badge } from './ui/badge';
-import { format, formatDistanceToNow, parse } from 'date-fns';
-import { PlayCircle } from 'lucide-react';
+import { format, parse } from 'date-fns';
 import placeholderImage from '@/lib/placeholder-images.json';
 import { useState, useEffect } from 'react';
 
@@ -32,7 +29,7 @@ export function MatchCard({ match, onWatchLive }: MatchCardProps) {
   
   const startTime = parseStartTime(match.startTime);
   
-  const formattedStartTime = startTime ? format(startTime, 'p, MMM d') : 'TBA';
+  const formattedStartTime = startTime ? format(startTime, 'p') : 'TBA';
   const canWatch = match.status === 'LIVE' && (match.dai_url || match.adfree_url);
 
   useEffect(() => {
@@ -40,55 +37,65 @@ export function MatchCard({ match, onWatchLive }: MatchCardProps) {
   }, []);
 
   return (
-    <Card className="flex flex-col h-full overflow-hidden bg-card shadow-lg border-0">
-      <CardHeader className="p-0 relative">
-        <div className="aspect-video relative">
+    <div className="relative flex flex-col items-stretch justify-start rounded-md bg-[#181818] overflow-hidden border border-zinc-800">
+        <div className="relative w-full bg-center bg-no-repeat aspect-video bg-cover">
             <Image
                 src={match.image_url || placeholder?.imageUrl || '/fallback.png'}
                 alt={match.title}
                 fill
-                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                className="object-fill object-center grayscale hover:grayscale-0"
+                className="object-cover object-center"
                 data-ai-hint={placeholder?.imageHint || 'sport match'}
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
-        </div>
-        <div className="absolute top-2 left-2">
-            <Badge variant="secondary" className="font-semibold uppercase text-xs bg-background/70">
-                {match.event_category}
-            </Badge>
-        </div>
-        {match.status === 'LIVE' && (
-            <Badge variant="destructive" className="absolute top-2 right-2 flex items-center gap-2">
-                <div className="live-indicator"></div> LIVE
-            </Badge>
-        )}
-      </CardHeader>
-      <CardContent className="flex-1 p-4 flex flex-col">
-        <h3 className="font-headline text-xl leading-tight text-foreground flex-1">
-          {match.match_name}
-        </h3>
-        <p className="text-sm text-muted-foreground mt-2">{match.event_name}</p>
-      </CardContent>
-      <CardFooter className="p-4">
-        {canWatch ? (
-          <Button onClick={() => onWatchLive(match)} className="w-full font-bold">
-            <PlayCircle className="mr-2 h-5 w-5" />
-            Watch Live
-          </Button>
-        ) : (
-          <div className="w-full text-center text-sm text-muted-foreground h-12 flex flex-col justify-center">
-            {isMounted && startTime ? (
-                <>
-                    <p className="font-medium">{`Starts ${formatDistanceToNow(startTime, { addSuffix: true })}`}</p>
-                    <p className="text-xs">{formattedStartTime}</p>
-                </>
-            ) : (
-                <div>{startTime ? formattedStartTime : 'Time to be announced'}</div>
+            {match.event_category && (
+                <div className="absolute top-3 left-0">
+                    <span className="bg-zinc-900/70 backdrop-blur-sm text-zinc-100 text-xs font-bold uppercase tracking-widest py-1.5 px-3 border-y border-r border-zinc-700/50 rounded-r-sm">
+                        {match.event_category}
+                    </span>
+                </div>
             )}
-          </div>
-        )}
-      </CardFooter>
-    </Card>
+            {match.status === 'LIVE' && (
+                <div className="absolute top-3 right-3">
+                    <span className="inline-flex items-center gap-2 rounded-sm bg-red-600 px-2.5 py-1 text-xs font-bold uppercase tracking-widest text-white">
+                        <span className="h-2 w-2 rounded-full bg-white animate-pulse"></span>
+                        LIVE
+                    </span>
+                </div>
+            )}
+            <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-[#181818] to-transparent"></div>
+            <div className="absolute inset-x-0 bottom-0 p-4 pt-16 flex flex-col items-start justify-end">
+                <div className="bg-zinc-900/80 backdrop-blur-sm p-3 border border-zinc-700 w-full">
+                    <p className="text-zinc-200 text-xl font-mono uppercase leading-tight tracking-wider text-left">
+                        {match.match_name}
+                    </p>
+                    <p className="text-zinc-400 text-sm font-mono leading-normal tracking-wider text-left mt-1">
+                        {match.event_name}
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div className="flex w-full min-w-72 grow flex-col items-stretch justify-center gap-2 p-4 pt-0">
+            {canWatch ? (
+                <Button 
+                    onClick={() => onWatchLive(match)}
+                    className="mt-4 flex items-center justify-center rounded-sm bg-white py-3 px-4 text-center text-black font-bold uppercase tracking-wider transition-transform duration-200 hover:bg-zinc-200 active:scale-95"
+                >
+                    Watch
+                </Button>
+            ) : (
+                <div className="mt-4 flex items-center justify-center rounded-sm border border-zinc-700 bg-zinc-800/50 py-3 px-4 text-center">
+                    {isMounted && startTime ? (
+                        <p className="text-zinc-300 text-base font-normal leading-normal">
+                            Starts at {formattedStartTime}
+                        </p>
+                    ) : (
+                        <p className="text-zinc-300 text-base font-normal leading-normal">
+                           Time to be announced
+                        </p>
+                    )}
+                </div>
+            )}
+        </div>
+    </div>
   );
 }
