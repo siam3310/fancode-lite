@@ -2,8 +2,7 @@
 
 import { useEffect, useRef, useId } from 'react';
 
-// This tells TypeScript that a 'Clappr' object exists in the global scope,
-// as it's loaded from an external script in layout.tsx.
+// This tells TypeScript that 'Clappr' and its plugins exist in the global scope.
 declare const Clappr: any;
 
 interface ClapprPlayerProps {
@@ -15,19 +14,17 @@ export function ClapprPlayer({ source }: ClapprPlayerProps) {
   const containerId = useId();
 
   useEffect(() => {
-    // Ensure Clappr script is loaded and we have a source URL
-    if (typeof Clappr === 'undefined' || !source) {
-      console.warn('Clappr or source URL is not available.');
+    // Ensure Clappr script and the level selector plugin are loaded.
+    if (typeof Clappr === 'undefined' || typeof Clappr.LevelSelector === 'undefined' || !source) {
+      console.warn('Clappr or its plugins are not available.');
       return;
     }
 
-    // If a player instance already exists, destroy it before creating a new one.
     if (playerRef.current) {
       playerRef.current.destroy();
     }
     
     try {
-      // Create a new Clappr player instance
       playerRef.current = new Clappr.Player({
         source: source,
         parentId: `#${containerId}`,
@@ -35,21 +32,22 @@ export function ClapprPlayer({ source }: ClapprPlayerProps) {
         height: '100%',
         autoPlay: true,
         muted: false,
+        plugins: [Clappr.LevelSelector], // Add the plugin here
+        levelSelectorConfig: {
+          title: 'Quality', // Title for the quality selection menu
+        },
       });
     } catch (e) {
         console.error("Error creating Clappr player:", e);
     }
 
-
-    // Cleanup function to destroy the player when the component unmounts
-    // or when the source URL changes.
     return () => {
       if (playerRef.current) {
         playerRef.current.destroy();
         playerRef.current = null;
       }
     };
-  }, [source, containerId]); // Rerun effect if source or containerId changes
+  }, [source, containerId]);
 
   return <div id={containerId} className="w-full h-full bg-black" />;
 }
