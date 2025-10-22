@@ -48,7 +48,7 @@ export function MatchCard({ match, onWatchLive }: MatchCardProps) {
                 alt={match.title}
                 fill
                 sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                className="object-cover transition-all duration-300 grayscale group-hover:grayscale-0"
+                className="object-cover object-center transition-all duration-300 grayscale group-hover:grayscale-0"
                 data-ai-hint={placeholder?.imageHint || 'sport match'}
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
