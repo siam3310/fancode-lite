@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { MatchList } from '@/components/match-list';
 import type { ApiData, Match } from '@/lib/types';
 import { format, parse } from 'date-fns';
+import { unstable_cache } from 'next/cache';
 
 function parseStartTime(timeStr: string): number {
     try {
@@ -14,48 +15,52 @@ function parseStartTime(timeStr: string): number {
     }
 }
 
-async function getMatches(): Promise<ApiData | null> {
-  try {
-    const res = await fetch('https://raw.githubusercontent.com/drmlive/fancode-live-events/main/fancode.json', {
-      headers: {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
-      },
-      next: { revalidate: 300 }
-    });
+const getMatches = unstable_cache(
+  async () => {
+    try {
+      const res = await fetch('https://raw.githubusercontent.com/drmlive/fancode-live-events/main/fancode.json', {
+        headers: {
+          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+        }
+      });
 
-    if (!res.ok) {
-      throw new Error(`Failed to fetch matches: ${res.statusText}`);
+      if (!res.ok) {
+        throw new Error(`Failed to fetch matches: ${res.statusText}`);
+      }
+      const data = await res.json();
+      
+      const rawMatches = data.matches || data;
+
+      const matches: Match[] = (Array.isArray(rawMatches) ? rawMatches : []).map((item: any) => ({
+        match_id: item.match_id,
+        title: item.title,
+        status: item.status,
+        start_time: parseStartTime(item.startTime),
+        startTime: item.startTime,
+        image_url: item.src,
+        tour: { tour_id: item.match_id, name: item.event_name },
+        squad_a: { squad_id: 1, name: item.team_1, short_name: item.team_1, image_url: '' },
+        squad_b: { squad_id: 2, name: item.team_2, short_name: item.team_2, image_url: '' },
+        streaming_sources: [],
+        dai_url: item.dai_url,
+        adfree_url: item.adfree_url,
+        event_category: item.event_category,
+        team_1: item.team_1,
+        team_2: item.team_2,
+        event_name: item.event_name,
+        match_name: item.match_name,
+      }));
+
+      return { ...data, matches: matches, meta: data.meta || { last_updated_at: new Date().toISOString()} };
+    } catch (error) {
+      console.error('Error fetching match data:', error);
+      return null;
     }
-    const data = await res.json();
-    
-    const rawMatches = data.matches || data;
+  },
+  ['matches-data'],
+  { revalidate: 300 }
+);
 
-    const matches: Match[] = (Array.isArray(rawMatches) ? rawMatches : []).map((item: any) => ({
-      match_id: item.match_id,
-      title: item.title,
-      status: item.status,
-      start_time: parseStartTime(item.startTime),
-      startTime: item.startTime,
-      image_url: item.src,
-      tour: { tour_id: item.match_id, name: item.event_name },
-      squad_a: { squad_id: 1, name: item.team_1, short_name: item.team_1, image_url: '' },
-      squad_b: { squad_id: 2, name: item.team_2, short_name: item.team_2, image_url: '' },
-      streaming_sources: [],
-      dai_url: item.dai_url,
-      adfree_url: item.adfree_url,
-      event_category: item.event_category,
-      team_1: item.team_1,
-      team_2: item.team_2,
-      event_name: item.event_name,
-      match_name: item.match_name,
-    }));
-
-    return { ...data, matches: matches, meta: data.meta || { last_updated_at: new Date().toISOString()} };
-  } catch (error) {
-    console.error('Error fetching match data:', error);
-    return null;
-  }
-}
 
 export default async function Home() {
   const data = await getMatches();
@@ -82,7 +87,7 @@ export default async function Home() {
             <div className="flex items-center gap-2 text-primary" aria-label="Fancode Lite">
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 130 20"
+                    viewBox="0 0 125 20"
                     className="h-6 w-auto"
                     fill="currentColor"
                     aria-hidden="true"
@@ -92,18 +97,18 @@ export default async function Home() {
                         y="15"
                         fontFamily="'Bebas Neue', sans-serif"
                         fontSize="20"
-                        letterSpacing="0.05em"
+                        letterSpacing="0.02em"
                         className="font-headline"
                     >
                         FANCODE
                     </text>
                     <text
-                        x="85"
+                        x="80"
                         y="15"
                         fontFamily="'Roboto', sans-serif"
                         fontSize="18"
                         fontWeight="300"
-                        letterSpacing="0.05em"
+                        letterSpacing="0.02em"
                     >
                         LITE
                     </text>
