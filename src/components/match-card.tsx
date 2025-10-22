@@ -56,7 +56,7 @@ export function MatchCard({ match, onWatchLive }: MatchCardProps) {
             {match.status === 'LIVE' && (
                 <div className="absolute top-3 right-3">
                     <span className="inline-flex items-center gap-2 rounded-sm bg-red-600 px-2.5 py-1 text-xs font-bold uppercase tracking-widest text-white">
-                        <span className="h-2 w-2 rounded-full bg-white animate-pulse"></span>
+                        <span className="h-2 w-2 rounded-full bg-white"></span>
                         LIVE
                     </span>
                 </div>
