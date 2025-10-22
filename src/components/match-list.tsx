@@ -59,7 +59,7 @@ export function MatchList({ initialMatches, categories }: MatchListProps) {
         </div>
       ) : null}
 
-      <div className="flex flex-col md:flex-row gap-4 mb-4 sticky top-[64px] bg-background py-3 z-10">
+      <div className="flex flex-col md:flex-row gap-4 mb-4 sticky top-[64px] bg-background z-10">
         <div className="flex items-center gap-2 flex-wrap">
           {statusFilters.map((filter) => (
             <Button
@@ -92,7 +92,7 @@ export function MatchList({ initialMatches, categories }: MatchListProps) {
       </div>
       
       {filteredMatches.length > 0 ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 pb-8">
           {filteredMatches.map((match) => (
             <MatchCard key={match.match_id} match={match} onWatchLive={handleWatchLive} />
           ))}
