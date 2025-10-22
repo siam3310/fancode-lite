@@ -63,7 +63,7 @@ export function MatchCard({ match, onWatchLive }: MatchCardProps) {
             )}
             <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-[#181818] to-transparent"></div>
             <div className="absolute inset-x-0 bottom-0 p-4 pt-20 flex flex-col items-start justify-end">
-                <div className="bg-zinc-900/80 backdrop-blur-sm p-3 border border-zinc-700 w-full">
+                <div className="bg-zinc-900/80 backdrop-blur-sm p-3 w-full pt-4 border border-zinc-700">
                     <p className="text-zinc-200 text-xl font-mono uppercase leading-tight tracking-wider text-left">
                         {match.match_name}
                     </p>

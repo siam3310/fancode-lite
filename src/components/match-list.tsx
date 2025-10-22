@@ -59,7 +59,7 @@ export function MatchList({ initialMatches, categories }: MatchListProps) {
         </div>
       ) : null}
 
-      <div className="flex flex-col md:flex-row gap-4 mb-4 sticky top-[64px] bg-background z-10">
+      <div className="flex flex-col md:flex-row gap-4 mb-6 sticky top-[64px] bg-background z-10">
         <div className="flex items-center gap-2 flex-wrap">
           {statusFilters.map((filter) => (
             <Button
