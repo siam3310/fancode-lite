@@ -63,19 +63,20 @@ export function MatchCard({ match, onWatchLive }: MatchCardProps) {
                 </div>
             )}
             <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-[#181818] to-transparent"></div>
-            <div className="absolute inset-x-0 bottom-0 p-4 pt-20 flex flex-col items-start justify-end">
-                <div className="bg-zinc-900/80 backdrop-blur-sm p-3 w-full pt-4 border border-zinc-700">
-                    <p className="text-zinc-200 text-xl font-mono uppercase leading-tight tracking-wider text-left">
-                        {match.match_name}
-                    </p>
-                    <p className="text-zinc-400 text-sm font-mono leading-normal tracking-wider text-left mt-1">
-                        {match.event_name}
-                    </p>
-                </div>
+        </div>
+        
+        <div className="relative -mt-20 z-10 p-4 pt-0">
+            <div className="bg-zinc-900/80 backdrop-blur-sm p-3 w-full pt-4 border border-zinc-700">
+                <p className="text-zinc-200 text-xl font-mono uppercase leading-tight tracking-wider text-left">
+                    {match.match_name}
+                </p>
+                <p className="text-zinc-400 text-sm font-mono leading-normal tracking-wider text-left mt-1">
+                    {match.event_name}
+                </p>
             </div>
         </div>
         
-        <Separator className="bg-zinc-800" />
+        <Separator className="bg-zinc-800 mx-4" />
 
         <div className="flex w-full min-w-72 grow flex-col items-stretch justify-center gap-2 p-4">
             {canWatch ? (
