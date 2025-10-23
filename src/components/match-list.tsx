@@ -59,35 +59,37 @@ export function MatchList({ initialMatches, categories }: MatchListProps) {
         </div>
       ) : null}
 
-      <div className="flex flex-col md:flex-row items-center gap-2 mb-6 sticky top-[72px] bg-background z-0 pb-4">
-        <div className="flex items-center gap-2 flex-wrap">
-          {statusFilters.map((filter) => (
-            <Button
-              key={filter}
-              variant={statusFilter === filter ? 'default' : 'secondary'}
-              onClick={() => setStatusFilter(filter)}
-              className="rounded-sm h-8 px-4 text-xs font-bold uppercase tracking-wider"
-            >
-              {filter === 'LIVE Now' && <div className="h-2 w-2 rounded-full bg-red-600 mr-2"></div>}
-              {filter}
-            </Button>
-          ))}
-        </div>
-        <div className="relative md:w-64">
-          <Select value={categoryFilter} onValueChange={setCategoryFilter}>
-            <SelectTrigger className="w-full rounded-sm h-8 text-xs font-bold uppercase tracking-wider">
-              <ListFilter className="mr-2 h-4 w-4" />
-              <SelectValue placeholder="Filter by category..." />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="All">All Categories</SelectItem>
-              {categories.map((category) => (
-                category && <SelectItem key={category} value={category}>
-                  {category}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+      <div className="sticky top-[64px] bg-background z-10 py-4 mb-6">
+        <div className="flex flex-col md:flex-row items-center gap-2">
+            <div className="flex items-center gap-2 flex-wrap">
+            {statusFilters.map((filter) => (
+                <Button
+                key={filter}
+                variant={statusFilter === filter ? 'default' : 'secondary'}
+                onClick={() => setStatusFilter(filter)}
+                className="rounded-sm h-8 px-4 text-xs font-bold uppercase tracking-wider"
+                >
+                {filter === 'LIVE Now' && <div className="h-2 w-2 rounded-full bg-red-600 mr-2"></div>}
+                {filter}
+                </Button>
+            ))}
+            </div>
+            <div className="relative w-full md:w-64">
+            <Select value={categoryFilter} onValueChange={setCategoryFilter}>
+                <SelectTrigger className="w-full rounded-sm h-8 text-xs font-bold uppercase tracking-wider">
+                <ListFilter className="mr-2 h-4 w-4" />
+                <SelectValue placeholder="Filter by category..." />
+                </SelectTrigger>
+                <SelectContent>
+                <SelectItem value="All">All Categories</SelectItem>
+                {categories.map((category) => (
+                    category && <SelectItem key={category} value={category}>
+                    {category}
+                    </SelectItem>
+                ))}
+                </SelectContent>
+            </Select>
+            </div>
         </div>
       </div>
       

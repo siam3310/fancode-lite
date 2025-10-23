@@ -5,7 +5,6 @@ import { Button } from './ui/button';
 import { format, parse } from 'date-fns';
 import placeholderImage from '@/lib/placeholder-images.json';
 import { useState, useEffect } from 'react';
-import { Separator } from './ui/separator';
 
 interface MatchCardProps {
   match: Match;
@@ -44,7 +43,7 @@ export function MatchCard({ match, onWatchLive }: MatchCardProps) {
           src={match.image_url || placeholder?.imageUrl || '/fallback.png'}
           alt={match.title}
           fill
-          className="object-cover object-center"
+          className="object-cover object-center grayscale"
           data-ai-hint={placeholder?.imageHint || 'sport match'}
         />
         {match.event_category && (
