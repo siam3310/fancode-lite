@@ -10,8 +10,8 @@
     --card-foreground: 0 0% 96%;
     --popover: 201 34% 10%;
     --popover-foreground: 0 0% 96%;
-    --primary: 200 95% 45%; /* #0b95da */
-    --primary-foreground: 0 0% 100%;
+    --primary: 0 0% 80%; /* Monochromatic primary */
+    --primary-foreground: 0 0% 10%;
     --secondary: 240 5% 15%; /* Darker secondary for subtle contrast */
     --secondary-foreground: 0 0% 96%;
     --muted: 240 5% 15%;
@@ -22,7 +22,7 @@
     --destructive-foreground: 0 0% 98%;
     --border: 240 4% 20%;
     --input: 240 4% 20%;
-    --ring: 200 95% 45%;
+    --ring: 0 0% 80%; /* Monochromatic ring */
     --chart-1: 0 0% 70%;
     --chart-2: 0 0% 60%;
     --chart-3: 0 0% 50%;
@@ -45,8 +45,8 @@
     --card-foreground: 0 0% 96%;
     --popover: 201 34% 10%;
     --popover-foreground: 0 0% 96%;
-    --primary: 200 95% 45%; /* #0b95da */
-    --primary-foreground: 0 0% 100%;
+    --primary: 0 0% 80%; /* Monochromatic primary */
+    --primary-foreground: 0 0% 10%;
     --secondary: 240 5% 15%;
     --secondary-foreground: 0 0% 96%;
     --muted: 240 5% 15%;
@@ -57,7 +57,7 @@
     --destructive-foreground: 0 0% 98%;
     --border: 240 4% 20%;
     --input: 240 4% 20%;
-    --ring: 200 95% 45%;
+    --ring: 0 0% 80%; /* Monochromatic ring */
     --chart-1: 0 0% 70%;
     --chart-2: 0 0% 60%;
     --chart-3: 0 0% 50%;
