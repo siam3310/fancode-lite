@@ -4,7 +4,7 @@
 
 @layer base {
   :root {
-    --background: 201 34% 10%; /* #101c22 */
+    --background: 240 7% 10%; /* #16161a */
     --foreground: 0 0% 96%; /* #F5F5F5 - Brighter for bold text */
     --card: 200 33% 13%;
     --card-foreground: 0 0% 96%;
@@ -39,7 +39,7 @@
   }
 
   .dark {
-    --background: 201 34% 10%; /* #101c22 */
+    --background: 240 7% 10%; /* #16161a */
     --foreground: 0 0% 96%; /* #F5F5F5 */
     --card: 200 33% 13%;
     --card-foreground: 0 0% 96%;
