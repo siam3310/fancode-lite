@@ -81,40 +81,9 @@ export default async function Home() {
   const lastUpdatedAt = data?.meta?.last_updated_at ? format(new Date(data.meta.last_updated_at), "PPP p") : 'N/A';
 
   return (
-    <div className="flex flex-col min-h-screen bg-background">
-      <header className="sticky top-0 z-20 w-full bg-background">
-        <div className="container flex h-16 items-center justify-center px-4 md:px-8">
-            <div className="flex items-center gap-2 text-primary" aria-label="Fancode BD">
-                <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 120 20"
-                    className="h-6 w-auto"
-                    fill="currentColor"
-                    aria-hidden="true"
-                >
-                    <text
-                        x="0"
-                        y="15"
-                        fontFamily="'Bebas Neue', sans-serif"
-                        fontSize="20"
-                        letterSpacing="-0.05em"
-                        className="font-headline"
-                    >
-                        FANCODE
-                    </text>
-                    <text
-                        x="68"
-                        y="15"
-                        fontFamily="'Bebas Neue', sans-serif"
-                        fontSize="20"
-                        letterSpacing="-0.05em"
-                        className="font-headline"
-                    >
-                        BD
-                    </text>
-                </svg>
-            </div>
-        </div>
+    <div className="flex flex-col min-h-screen">
+      <header className="sticky top-0 z-20 w-full flex items-center bg-[#1A1A1A] p-4 justify-center">
+        <h2 className="text-[#F5F5F5] text-4xl font-headline tracking-wider italic">FancodeBD</h2>
       </header>
 
       <main className="flex-1">
@@ -126,7 +95,7 @@ export default async function Home() {
 
       <footer className="py-6 text-center text-sm text-muted-foreground">
         <p>Last updated: {lastUpdatedAt}</p>
-        <p className="mt-2">Fancode API data provided by drmlive.</p>
+        <p className="mt-2">Copyright © 2024. Fancode API data provided by drmlive.</p>
       </footer>
     </div>
   );

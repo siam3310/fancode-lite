@@ -17,7 +17,7 @@ export default {
     },
     extend: {
       fontFamily: {
-        body: ['Roboto', 'sans-serif'],
+        body: ['Lexend', 'sans-serif'],
         headline: ['Bebas Neue', 'sans-serif'],
         code: ['monospace'],
         mono: ['Space Mono', 'monospace'],
