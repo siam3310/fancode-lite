@@ -39,67 +39,61 @@ export function MatchCard({ match, onWatchLive }: MatchCardProps) {
 
   return (
     <div className="relative flex flex-col items-stretch justify-start rounded-md bg-[#181818] overflow-hidden border border-zinc-800">
-        <div className="relative w-full bg-center bg-no-repeat aspect-video bg-cover grayscale">
-            <Image
-                src={match.image_url || placeholder?.imageUrl || '/fallback.png'}
-                alt={match.title}
-                fill
-                className="object-fill object-center"
-                data-ai-hint={placeholder?.imageHint || 'sport match'}
-            />
-            {match.event_category && (
-                <div className="absolute top-3 left-0">
-                    <span className="bg-zinc-900/70 backdrop-blur-sm text-zinc-100 text-xs font-bold uppercase tracking-widest py-1.5 px-3 border-y border-r border-zinc-700/50 rounded-r-sm">
-                        {match.event_category}
-                    </span>
-                </div>
-            )}
-            {match.status === 'LIVE' && (
-                <div className="absolute top-3 right-3">
-                    <span className="inline-flex items-center gap-2 rounded-sm bg-red-600 px-2.5 py-1 text-xs font-bold uppercase tracking-widest text-white">
-                        <span className="h-2 w-2 rounded-full bg-white animate-pulse"></span>
-                        LIVE
-                    </span>
-                </div>
-            )}
-            <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-[#181818] to-transparent"></div>
+      <div className="relative w-full aspect-video bg-zinc-900">
+        <Image
+          src={match.image_url || placeholder?.imageUrl || '/fallback.png'}
+          alt={match.title}
+          fill
+          className="object-cover object-center"
+          data-ai-hint={placeholder?.imageHint || 'sport match'}
+        />
+        {match.event_category && (
+          <div className="absolute top-3 left-0">
+            <span className="bg-zinc-900/70 backdrop-blur-sm text-zinc-100 text-xs font-bold uppercase tracking-widest py-1.5 px-3 border-y border-r border-zinc-700/50 rounded-r-sm">
+              {match.event_category}
+            </span>
+          </div>
+        )}
+        {match.status === 'LIVE' && (
+          <div className="absolute top-3 right-3">
+            <span className="inline-flex items-center gap-2 rounded-sm bg-red-600 px-2.5 py-1 text-xs font-bold uppercase tracking-widest text-white">
+              <span className="h-2 w-2 rounded-full bg-white animate-pulse"></span>
+              LIVE
+            </span>
+          </div>
+        )}
+        <div className="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-black/80 to-transparent">
+          <p className="text-zinc-200 text-xl font-mono uppercase leading-tight tracking-wider text-left">
+            {match.match_name}
+          </p>
+          <p className="text-zinc-400 text-sm font-mono leading-normal tracking-wider text-left mt-1">
+            {match.event_name}
+          </p>
         </div>
-        
-        <div className="relative -mt-20 z-10 p-4 pt-0">
-            <div className="bg-zinc-900/80 backdrop-blur-sm p-3 w-full pt-4 border border-zinc-700">
-                <p className="text-zinc-200 text-xl font-mono uppercase leading-tight tracking-wider text-left">
-                    {match.match_name}
-                </p>
-                <p className="text-zinc-400 text-sm font-mono leading-normal tracking-wider text-left mt-1">
-                    {match.event_name}
-                </p>
-            </div>
-        </div>
-        
-        <Separator className="bg-zinc-800 mx-4" />
+      </div>
 
-        <div className="flex w-full min-w-72 grow flex-col items-stretch justify-center gap-2 p-4">
-            {canWatch ? (
-                <Button 
-                    onClick={() => onWatchLive(match)}
-                    className="flex items-center justify-center rounded-sm bg-white py-3 px-4 text-center text-black font-bold uppercase tracking-wider transition-transform duration-200 hover:bg-zinc-200 active:scale-95"
-                >
-                    Watch
-                </Button>
+      <div className="flex w-full min-w-72 grow flex-col items-stretch justify-center gap-2 p-4">
+        {canWatch ? (
+          <Button
+            onClick={() => onWatchLive(match)}
+            className="flex items-center justify-center rounded-sm bg-white py-3 px-4 text-center text-black font-bold uppercase tracking-wider transition-transform duration-200 hover:bg-zinc-200 active:scale-95"
+          >
+            Watch
+          </Button>
+        ) : (
+          <div className="flex items-center justify-center rounded-sm border border-zinc-700 bg-zinc-800/50 py-3 px-4 text-center">
+            {isMounted && startTime ? (
+              <p className="text-zinc-300 text-base font-normal leading-normal">
+                Starts at {formattedStartTime}
+              </p>
             ) : (
-                <div className="flex items-center justify-center rounded-sm border border-zinc-700 bg-zinc-800/50 py-3 px-4 text-center">
-                    {isMounted && startTime ? (
-                        <p className="text-zinc-300 text-base font-normal leading-normal">
-                            Starts at {formattedStartTime}
-                        </p>
-                    ) : (
-                        <p className="text-zinc-300 text-base font-normal leading-normal">
-                           Time to be announced
-                        </p>
-                    )}
-                </div>
+              <p className="text-zinc-300 text-base font-normal leading-normal">
+                Time to be announced
+              </p>
             )}
-        </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 }

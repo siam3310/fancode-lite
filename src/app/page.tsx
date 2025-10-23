@@ -82,7 +82,7 @@ export default async function Home() {
 
   return (
     <div className="flex flex-col min-h-screen">
-      <header className="sticky top-0 z-20 w-full flex items-center bg-[#1A1A1A] p-4 justify-center">
+      <header className="sticky top-0 z-20 w-full flex items-center bg-background p-4 justify-center">
         <h2 className="text-[#F5F5F5] text-4xl font-headline tracking-wider italic">FancodeBD</h2>
       </header>
 

@@ -8,7 +8,7 @@
     --foreground: 0 0% 96%; /* #F5F5F5 - Brighter for bold text */
     --card: 200 33% 13%;
     --card-foreground: 0 0% 96%;
-    --popover: 201 34% 10%;
+    --popover: 240 7% 10%; /* #16161a */
     --popover-foreground: 0 0% 96%;
     --primary: 0 0% 80%; /* Monochromatic primary */
     --primary-foreground: 0 0% 10%;
@@ -43,7 +43,7 @@
     --foreground: 0 0% 96%; /* #F5F5F5 */
     --card: 200 33% 13%;
     --card-foreground: 0 0% 96%;
-    --popover: 201 34% 10%;
+    --popover: 240 7% 10%; /* #16161a */
     --popover-foreground: 0 0% 96%;
     --primary: 0 0% 80%; /* Monochromatic primary */
     --primary-foreground: 0 0% 10%;
