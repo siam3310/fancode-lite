@@ -43,7 +43,7 @@ export function MatchCard({ match, onWatchLive }: MatchCardProps) {
           src={match.image_url || placeholder?.imageUrl || '/fallback.png'}
           alt={match.title}
           fill
-          className="object-cover object-center grayscale"
+          className="object-cover object-top grayscale"
           data-ai-hint={placeholder?.imageHint || 'sport match'}
         />
         {match.event_category && (
