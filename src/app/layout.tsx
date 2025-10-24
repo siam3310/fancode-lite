@@ -18,7 +18,7 @@ const lexend = Lexend({
 
 export const metadata: Metadata = {
   title: 'Fancode BD | Live Cricket & Sports',
-  description: 'Live scores, streaming, and updates for your favorite matches in Bangladesh. Watch cricket, football, and more on Fancode BD.',
+  description: 'Live Fancode BD, streaming, and updates for your favorite matches in Bangladesh. Watch cricket, football, and more on Fancode BD.',
 };
 
 export default function RootLayout({
@@ -29,6 +29,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`dark ${bebasNeue.variable} ${lexend.variable}`}>
       <head>
+        <meta name="google-site-verification" content="yAFfTwqZrPnN9SKdzxCNipM_H63nQuqk8YkIZDlDOcc" />
         <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clappr@latest/dist/clappr.min.js" async></script>
       </head>
       <body className="font-body antialiased">
