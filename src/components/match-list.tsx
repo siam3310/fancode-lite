@@ -25,26 +25,29 @@ export function MatchList({ initialMatches, categories }: MatchListProps) {
   };
   
   const getStreamingUrl = (match: Match | null): string => {
-    if (!match?.adfree_url) return '';
-    
-    // The URL might come with or without a protocol. The check should handle both.
-    const urlToTest = match.adfree_url.startsWith('http') 
-      ? match.adfree_url 
-      : `https:${match.adfree_url}`;
-
+    if (!match || !match.adfree_url) return '';
+  
+    let url = match.adfree_url;
+  
+    // Ensure the URL has a protocol
+    if (url.startsWith('//')) {
+      url = `https:${url}`;
+    }
+  
     try {
-      const urlObject = new URL(urlToTest);
+      const urlObject = new URL(url);
       if (urlObject.hostname === 'in-mc-fdlive.fancode.com') {
-          // This replacement is crucial for playback in certain regions.
-          urlObject.hostname = 'bd-mc-fdlive.fancode.com';
-          return urlObject.toString();
+        urlObject.hostname = 'bd-mc-fdlive.fancode.com';
+        return urlObject.toString();
       }
     } catch (e) {
-      console.error('Invalid URL for streaming:', match.adfree_url);
-      return ''; // Return empty if URL is malformed
+      console.error('Invalid URL for streaming:', url, e);
+      // If URL parsing fails, return the original (but protocol-fixed) URL
+      return url;
     }
-    
-    return match.adfree_url;
+  
+    // Return the original or modified URL
+    return url;
   };
 
   const streamingUrl = getStreamingUrl(selectedMatch);
