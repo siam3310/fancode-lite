@@ -15,18 +15,21 @@ export function ClapprPlayer({ source }: ClapprPlayerProps) {
   const containerId = useId();
 
   useEffect(() => {
-    // Ensure Clappr and Hls.js script is loaded.
-    if (typeof Clappr === 'undefined' || typeof Hls === 'undefined' || !source) {
-      console.warn('Clappr or HLS.js is not available.');
+    let playerInstance: any;
+
+    if (typeof Clappr === 'undefined' || !source) {
+      console.warn('Clappr is not available.');
       return;
     }
 
-    if (playerRef.current) {
-      playerRef.current.destroy();
+    // Ensure HLS.js is available for HLS streams
+    if (source.includes('.m3u8') && typeof Hls === 'undefined') {
+        console.warn('HLS.js is not available to play this stream.');
+        return;
     }
     
     try {
-      playerRef.current = new Clappr.Player({
+      playerInstance = new Clappr.Player({
         source: source,
         parentId: `#${containerId}`,
         width: '100%',
@@ -38,7 +41,12 @@ export function ClapprPlayer({ source }: ClapprPlayerProps) {
             // HLS.js configuration options
           },
         },
+        plugins: {
+          core: [Clappr.HLS]
+        }
       });
+      playerRef.current = playerInstance;
+
     } catch (e) {
         console.error("Error creating Clappr player:", e);
     }
