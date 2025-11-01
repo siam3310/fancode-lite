@@ -1,5 +1,5 @@
 'use client';
-import { useMemo, useState } from 'react';
+import { useMemo, useState, useEffect } from 'react';
 import type { Match } from '@/lib/types';
 import { MatchCard } from './match-card';
 import { Button } from './ui/button';
@@ -14,36 +14,39 @@ interface MatchListProps {
 
 const statusFilters = ['All Matches', 'LIVE Now', 'UPCOMING'];
 
+type PlayerType = 'clappr' | 'iframe';
+
 export function MatchList({ initialMatches, categories }: MatchListProps) {
   const [statusFilter, setStatusFilter] = useState('All Matches');
   const [categoryFilter, setCategoryFilter] = useState('All');
   const [selectedMatch, setSelectedMatch] = useState<Match | null>(null);
+  const [playerType, setPlayerType] = useState<PlayerType>('clappr');
+  const [playerUrl, setPlayerUrl] = useState<string>('');
+
+  useEffect(() => {
+    if (selectedMatch?.adfree_url) {
+      const url = selectedMatch.adfree_url;
+      if (url.includes('in-mc-fdlive.fancode.com')) {
+        let finalUrl = url.startsWith('//') ? 'https:' + url : url;
+        finalUrl = finalUrl.replace('in-mc-fdlive.fancode.com', 'bd-mc-fdlive.fancode.com');
+        setPlayerUrl(finalUrl);
+        setPlayerType('clappr');
+      } else {
+        const iframeUrl = `https://onelineplayer.com/player.html?autoplay=true&autopause=false&muted=false&loop=false&url=${encodeURIComponent(url)}`;
+        setPlayerUrl(iframeUrl);
+        setPlayerType('iframe');
+      }
+    } else {
+      setPlayerUrl('');
+    }
+  }, [selectedMatch]);
+
 
   const handleWatchLive = (match: Match) => {
     setSelectedMatch(match);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
   
-  const getStreamingUrl = (match: Match | null): string => {
-    if (!match || !match.adfree_url) {
-      return '';
-    }
-
-    let url = match.adfree_url;
-
-    if (url.startsWith('//')) {
-      url = 'https:' + url;
-    }
-    
-    if (url.includes('in-mc-fdlive.fancode.com')) {
-      return url.replace('in-mc-fdlive.fancode.com', 'bd-mc-fdlive.fancode.com');
-    }
-
-    return url;
-  };
-
-  const streamingUrl = getStreamingUrl(selectedMatch);
-
   const filteredMatches = useMemo(() => {
     return initialMatches.filter((match) => {
       const statusMatch =
@@ -59,10 +62,19 @@ export function MatchList({ initialMatches, categories }: MatchListProps) {
 
   return (
     <div className="container mx-auto px-4 md:px-8">
-      {selectedMatch && streamingUrl ? (
+      {selectedMatch && playerUrl ? (
         <div className="mb-8">
           <div className="aspect-video w-full bg-card rounded-lg overflow-hidden shadow-lg">
-            <ClapprPlayer source={streamingUrl} />
+            {playerType === 'clappr' ? (
+              <ClapprPlayer source={playerUrl} />
+            ) : (
+              <iframe
+                src={playerUrl}
+                allow="autoplay; encrypted-media"
+                allowFullScreen
+                className="w-full h-full border-0"
+              ></iframe>
+            )}
           </div>
           <div className="bg-[#181818] p-4 rounded-b-lg -mt-1">
             <h3 className="font-bold text-lg text-primary font-mono uppercase tracking-wider">{selectedMatch.match_name}</h3>
