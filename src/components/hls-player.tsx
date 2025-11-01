@@ -28,9 +28,11 @@ export const HlsPlayer: React.FC<HlsPlayerProps> = ({ src }) => {
 
     if (Hls.isSupported()) {
       const hls = new Hls({
-          // You can add HLS.js configuration here if needed
-          // For example, to handle errors better:
-          // abrEwmaDefaultEstimate: 500000,
+        // This is often needed for playing content from CDNs with signed URLs
+        // to prevent CORS issues.
+        xhrSetup: function (xhr, url) {
+            xhr.withCredentials = false;
+        },
       });
 
       hlsInstanceRef.current = hls;
@@ -47,7 +49,7 @@ export const HlsPlayer: React.FC<HlsPlayerProps> = ({ src }) => {
       
       hls.on(Hls.Events.ERROR, (event, data) => {
         if (data.fatal) {
-          console.error('HLS.js fatal error:', data);
+          console.error('HLS.js fatal error:', data.details, data);
           switch (data.type) {
             case Hls.ErrorTypes.NETWORK_ERROR:
               console.error('Fatal network error encountered, trying to recover...');
@@ -59,6 +61,7 @@ export const HlsPlayer: React.FC<HlsPlayerProps> = ({ src }) => {
               break;
             default:
               // Cannot recover
+              console.error("Unrecoverable HLS.js error, destroying instance.", data.details);
               hls.destroy();
               break;
           }
