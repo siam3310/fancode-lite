@@ -41,9 +41,7 @@ export function ClapprPlayer({ source }: ClapprPlayerProps) {
             // HLS.js configuration options
           },
         },
-        plugins: {
-          core: [Clappr.HLS]
-        }
+        plugins: [Clappr.HLS]
       });
       playerRef.current = playerInstance;
 
