@@ -86,7 +86,7 @@ export function MatchList({ initialMatches, categories }: MatchListProps) {
                 onClick={() => setStatusFilter(filter)}
                 className="rounded-sm h-8 px-4 text-xs font-bold uppercase tracking-wider"
                 >
-                {filter === 'LIVE Now' && <div className="h-2 w-2 rounded-full bg-red-600 mr-2"></div>}
+                {filter === 'LIVE Now' && <div className="h-2 w-2 rounded-full bg-red-600 mr-2 animate-pulse"></div>}
                 {filter}
                 </Button>
             ))}
