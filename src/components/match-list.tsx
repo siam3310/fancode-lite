@@ -27,12 +27,12 @@ export function MatchList({ initialMatches, categories }: MatchListProps) {
     if (selectedMatch?.adfree_url) {
       const url = selectedMatch.adfree_url;
       if (url.includes('in-mc-fdlive.fancode.com')) {
-        let finalUrl = url.startsWith('//') ? 'https:' + url : url;
+        let finalUrl = url.startsWith('//') ? 'https' + url : url;
         finalUrl = finalUrl.replace('in-mc-fdlive.fancode.com', 'bd-mc-fdlive.fancode.com');
         setPlayerUrl(finalUrl);
         setPlayerType('clappr');
       } else {
-        const iframeUrl = `https://onelineplayer.com/player.html?autoplay=true&autopause=false&muted=true&loop=false&url=${encodeURIComponent(url)}`;
+        const iframeUrl = `https://onelineplayer.com/player.html?autoplay=true&autopause=false&muted=false&loop=false&url=${encodeURIComponent(url)}`;
         setPlayerUrl(iframeUrl);
         setPlayerType('iframe');
       }

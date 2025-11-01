@@ -7,6 +7,10 @@ if [ -z "$1" ]; then
   exit 1
 fi
 
+# Pull latest changes from remote and rebase
+echo "Pulling latest changes..."
+git pull origin main --rebase
+
 # Add all changed files
 echo "Adding files..."
 git add .
