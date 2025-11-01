@@ -26,8 +26,13 @@ export function MatchList({ initialMatches, categories }: MatchListProps) {
   
   const getStreamingUrl = (match: Match | null): string => {
     if (!match?.adfree_url) return '';
-    // This replacement is crucial for playback in certain regions.
-    return match.adfree_url.replace('//in-mc-fdlive.fancode.com', '//bd-mc-fdlive.fancode.com');
+    
+    if (match.adfree_url.includes('//in-mc-fdlive.fancode.com')) {
+        // This replacement is crucial for playback in certain regions.
+        return match.adfree_url.replace('//in-mc-fdlive.fancode.com', '//bd-mc-fdlive.fancode.com');
+    }
+    
+    return match.adfree_url;
   };
 
   const streamingUrl = getStreamingUrl(selectedMatch);
