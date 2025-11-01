@@ -32,7 +32,7 @@ export function MatchList({ initialMatches, categories }: MatchListProps) {
         setPlayerUrl(finalUrl);
         setPlayerType('clappr');
       } else {
-        const iframeUrl = `https://onelineplayer.com/player.html?autoplay=true&autopause=false&muted=false&loop=false&url=${encodeURIComponent(url)}`;
+        const iframeUrl = `https://onelineplayer.com/player.html?autoplay=true&autopause=false&muted=true&loop=false&url=${encodeURIComponent(url)}`;
         setPlayerUrl(iframeUrl);
         setPlayerType('iframe');
       }
