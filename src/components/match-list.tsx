@@ -25,28 +25,20 @@ export function MatchList({ initialMatches, categories }: MatchListProps) {
   };
   
   const getStreamingUrl = (match: Match | null): string => {
-    if (!match || !match.adfree_url) return '';
-  
+    if (!match || !match.adfree_url) {
+      return '';
+    }
+
     let url = match.adfree_url;
-  
-    // Ensure the URL has a protocol
+
     if (url.startsWith('//')) {
-      url = `https:${url}`;
+      url = 'https:' + url;
     }
-  
-    try {
-      const urlObject = new URL(url);
-      if (urlObject.hostname === 'in-mc-fdlive.fancode.com') {
-        urlObject.hostname = 'bd-mc-fdlive.fancode.com';
-        return urlObject.toString();
-      }
-    } catch (e) {
-      console.error('Invalid URL for streaming:', url, e);
-      // If URL parsing fails, return the original (but protocol-fixed) URL
-      return url;
+    
+    if (url.includes('in-mc-fdlive.fancode.com')) {
+      return url.replace('in-mc-fdlive.fancode.com', 'bd-mc-fdlive.fancode.com');
     }
-  
-    // Return the original or modified URL
+
     return url;
   };
 
