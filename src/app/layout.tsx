@@ -31,6 +31,7 @@ export default function RootLayout({
       <head>
         <meta name="google-site-verification" content="yAFfTwqZrPnN9SKdzxCNipM_H63nQuqk8YkIZDlDOcc" />
         <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clappr@latest/dist/clappr.min.js" async></script>
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/hls.js@latest" async></script>
       </head>
       <body className="font-body antialiased">
         {children}
