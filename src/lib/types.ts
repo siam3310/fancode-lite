@@ -5,7 +5,8 @@ export interface Squad {
 
 export interface StreamingSource {
   name: string;
-  url: string;
+  url?: string;
+  manifest?: string;
 }
 
 export interface Tour {
@@ -26,7 +27,6 @@ export interface Match {
   event_category: string;
   match_name: string;
   event_name: string;
-  adfree_url?: string; // a default stream
 }
 
 export interface ApiData {

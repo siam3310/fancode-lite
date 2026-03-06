@@ -1,11 +1,12 @@
 'use client';
 import { useMemo, useState, useEffect } from 'react';
-import type { Match } from '@/lib/types';
+import type { Match, StreamingSource } from '@/lib/types';
 import { MatchCard } from './match-card';
 import { Button } from './ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
 import { ListFilter } from 'lucide-react';
 import { ClapprPlayer } from './clappr-player';
+import { HlsPlayer } from './hls-player';
 
 interface MatchListProps {
   initialMatches: Match[];
@@ -14,30 +15,39 @@ interface MatchListProps {
 
 const statusFilters = ['All Matches', 'LIVE Now', 'UPCOMING'];
 
-type PlayerType = 'clappr' | 'iframe';
+type PlayerType = 'clappr' | 'iframe' | 'hls';
 
 export function MatchList({ initialMatches, categories }: MatchListProps) {
   const [statusFilter, setStatusFilter] = useState('All Matches');
   const [categoryFilter, setCategoryFilter] = useState('All');
   const [selectedMatch, setSelectedMatch] = useState<Match | null>(null);
-  const [selectedStream, setSelectedStream] = useState<string | null>(null);
+  const [selectedStream, setSelectedStream] = useState<StreamingSource | null>(null);
   const [playerType, setPlayerType] = useState<PlayerType>('clappr');
   const [playerUrl, setPlayerUrl] = useState<string>('');
 
   const handleWatchLive = (match: Match) => {
     setSelectedMatch(match);
-    const defaultStream = match.streaming_sources.find(s => s.name === 'Bangladesh')?.url || match.streaming_sources[0]?.url;
+    const defaultStream = match.streaming_sources.find(s => s.name === 'Bangladesh') || match.streaming_sources[0];
     setSelectedStream(defaultStream || null);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
   
   useEffect(() => {
-    if (selectedStream) {
-        const url = selectedStream;
-        if (url.startsWith('data:')) {
-            setPlayerUrl(url);
-            setPlayerType('clappr');
-        } else if (url.includes('fancode.com')) {
+    let currentBlobUrl: string | null = null;
+    
+    if (playerUrl.startsWith('blob:')) {
+      URL.revokeObjectURL(playerUrl);
+    }
+    
+    if (selectedStream?.manifest) {
+      const blob = new Blob([selectedStream.manifest], { type: 'application/vnd.apple.mpegurl' });
+      const blobUrl = URL.createObjectURL(blob);
+      currentBlobUrl = blobUrl;
+      setPlayerUrl(blobUrl);
+      setPlayerType('hls');
+    } else if (selectedStream?.url) {
+        const url = selectedStream.url;
+        if (url.includes('fancode.com')) {
             const finalUrl = url.startsWith('//') ? 'https' + url : url;
             setPlayerUrl(finalUrl);
             setPlayerType('clappr');
@@ -49,6 +59,12 @@ export function MatchList({ initialMatches, categories }: MatchListProps) {
     } else {
         setPlayerUrl('');
     }
+
+    return () => {
+      if (currentBlobUrl) {
+        URL.revokeObjectURL(currentBlobUrl);
+      }
+    };
   }, [selectedStream]);
 
   
@@ -70,7 +86,9 @@ export function MatchList({ initialMatches, categories }: MatchListProps) {
       {selectedMatch && playerUrl ? (
         <div className="mb-8">
           <div className="aspect-video w-full bg-card rounded-lg overflow-hidden shadow-lg">
-            {playerType === 'clappr' ? (
+             {playerType === 'hls' ? (
+                <HlsPlayer src={playerUrl} />
+            ) : playerType === 'clappr' ? (
               <ClapprPlayer source={playerUrl} />
             ) : (
               <iframe
@@ -91,8 +109,8 @@ export function MatchList({ initialMatches, categories }: MatchListProps) {
                         <Button
                             key={source.name}
                             size="sm"
-                            variant={selectedStream === source.url ? 'default' : 'secondary'}
-                            onClick={() => setSelectedStream(source.url)}
+                            variant={selectedStream?.name === source.name ? 'default' : 'secondary'}
+                            onClick={() => setSelectedStream(source)}
                             className="text-xs"
                         >
                             {source.name}

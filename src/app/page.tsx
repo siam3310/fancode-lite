@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { MatchList } from '@/components/match-list';
-import type { ApiData, Match } from '@/lib/types';
+import type { ApiData, Match, StreamingSource } from '@/lib/types';
 import { format, parse } from 'date-fns';
 import { unstable_cache } from 'next/cache';
 
@@ -34,18 +34,14 @@ const getMatches = unstable_cache(
 
       const matches: Match[] = (Array.isArray(rawMatches) ? rawMatches : []).map((item: any) => {
         
-        const streaming_sources: any[] = [];
+        const streaming_sources: StreamingSource[] = [];
         if (item.auto_streams && item.auto_streams.length > 0 && item.auto_streams[0].auto) {
             const original_manifest = item.auto_streams[0].auto;
             
             const manifest_bd = original_manifest.replace(/in-mc-flive\.fancode\.com/g, 'bd-mc-flive.fancode.com');
 
-            // The manifest content needs to be URI encoded to be part of a data URI
-            const india_url = `data:application/x-mpegURL;charset=utf-8,${encodeURIComponent(original_manifest)}`;
-            const bd_url = `data:application/x-mpegURL;charset=utf-8,${encodeURIComponent(manifest_bd)}`;
-
-            streaming_sources.push({ name: 'India', url: india_url });
-            streaming_sources.push({ name: 'Bangladesh', url: bd_url });
+            streaming_sources.push({ name: 'India', manifest: original_manifest });
+            streaming_sources.push({ name: 'Bangladesh', manifest: manifest_bd });
         } else if (item.STREAMING_CDN) { // Fallback to old logic if auto_streams is not present
             if (item.STREAMING_CDN?.fancode_cdn && item.STREAMING_CDN.fancode_cdn !== "Unavailable") {
                 streaming_sources.push({ name: 'India', url: item.STREAMING_CDN.fancode_cdn });
@@ -66,7 +62,6 @@ const getMatches = unstable_cache(
           squad_a: { name: item.team?.[0]?.name || 'TBA', short_name: item.team?.[0]?.shortName || 'TBA' },
           squad_b: { name: item.team?.[1]?.name || 'TBA', short_name: item.team?.[1]?.shortName || 'TBA' },
           streaming_sources,
-          adfree_url: streaming_sources.find(s => s.name === 'Bangladesh')?.url || streaming_sources[0]?.url,
           event_category: item.category,
           match_name: item.title,
           event_name: item.tournament,
