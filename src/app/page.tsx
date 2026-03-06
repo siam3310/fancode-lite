@@ -76,15 +76,29 @@ export default async function Home() {
   const data = await getMatches();
   
   const allMatches: Match[] = data?.matches || [];
-  const relevantMatches = allMatches.filter(
-    (match) => match.status === 'LIVE' || match.status === 'UPCOMING'
-  );
-  const sortedMatches = relevantMatches.sort((a, b) => {
-    const isALive = a.status === 'LIVE';
-    const isBLive = b.status === 'LIVE';
-    if (isALive && !isBLive) return -1;
-    if (!isALive && isBLive) return 1;
-    return (a.start_time || 0) - (b.start_time || 0);
+  
+  const sortedMatches = allMatches.sort((a, b) => {
+    const statusOrder = { 'LIVE': 1, 'UPCOMING': 2, 'COMPLETED': 3 };
+    
+    const aStatus = a.status || 'COMPLETED';
+    const bStatus = b.status || 'COMPLETED';
+
+    const aStatusOrder = statusOrder[aStatus as keyof typeof statusOrder] || 4;
+    const bStatusOrder = statusOrder[bStatus as keyof typeof statusOrder] || 4;
+
+    if (aStatusOrder !== bStatusOrder) {
+      return aStatusOrder - bStatusOrder;
+    }
+
+    if (aStatus === 'LIVE' || aStatus === 'UPCOMING') {
+      return (a.start_time || 0) - (b.start_time || 0);
+    }
+
+    if (aStatus === 'COMPLETED') {
+      return (b.start_time || 0) - (a.start_time || 0);
+    }
+
+    return 0;
   });
   
   const categories = [...new Set(allMatches.filter(match => match.event_category).map((match) => match.event_category))].sort();
