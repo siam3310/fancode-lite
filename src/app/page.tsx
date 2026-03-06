@@ -38,9 +38,9 @@ const getMatches = unstable_cache(
         if (item.auto_streams && item.auto_streams.length > 0 && item.auto_streams[0].auto) {
             const original_manifest = item.auto_streams[0].auto;
             
-            const manifest_bd = original_manifest.replace(/in-mc-flive\.fancode\.com/g, 'bd-mc-flive.fancode.com');
-
             streaming_sources.push({ name: 'India', manifest: original_manifest });
+
+            const manifest_bd = original_manifest.replace(/in-mc-flive\.fancode\.com/g, 'bd-mc-flive.fancode.com');
             streaming_sources.push({ name: 'Bangladesh', manifest: manifest_bd });
         } else if (item.STREAMING_CDN) { // Fallback to old logic if auto_streams is not present
             if (item.STREAMING_CDN?.fancode_cdn && item.STREAMING_CDN.fancode_cdn !== "Unavailable") {
@@ -54,7 +54,7 @@ const getMatches = unstable_cache(
         return {
           match_id: item.match_id,
           title: item.title,
-          status: item.status,
+          status: item.status?.toUpperCase(),
           startTime: item.startTime,
           start_time: parseStartTime(item.startTime),
           image_url: item.image,
