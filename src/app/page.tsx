@@ -54,7 +54,7 @@ const getMatches = unstable_cache(
         return {
           match_id: item.match_id,
           title: item.title,
-          status: item.status?.toUpperCase(),
+          status: item.status?.trim().toUpperCase(),
           startTime: item.startTime,
           start_time: parseStartTime(item.startTime),
           image_url: item.image,

@@ -70,10 +70,11 @@ export function MatchList({ initialMatches, categories }: MatchListProps) {
   
   const filteredMatches = useMemo(() => {
     return initialMatches.filter((match) => {
+      const matchStatus = (match.status || '').toUpperCase();
       const statusMatch =
         statusFilter === 'All Matches' ||
-        (statusFilter === 'LIVE Now' && match.status === 'LIVE') ||
-        (statusFilter === 'UPCOMING' && match.status === 'UPCOMING');
+        (statusFilter === 'LIVE Now' && matchStatus === 'LIVE') ||
+        (statusFilter === 'UPCOMING' && matchStatus === 'UPCOMING');
       
       const categoryMatch = categoryFilter === 'All' || match.event_category === categoryFilter;
 
