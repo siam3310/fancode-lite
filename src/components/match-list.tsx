@@ -111,9 +111,14 @@ export function MatchList({ initialMatches, categories }: MatchListProps) {
                             size="sm"
                             variant={selectedStream?.name === source.name ? 'default' : 'secondary'}
                             onClick={() => setSelectedStream(source)}
-                            className="text-xs"
+                            className="px-4"
+                            title={source.name}
                         >
-                            {source.name}
+                            <span className="text-xl">
+                                {source.name === 'India' && '🇮🇳'}
+                                {source.name === 'Bangladesh' && '🇧🇩'}
+                                {source.name !== 'India' && source.name !== 'Bangladesh' && source.name}
+                            </span>
                         </Button>
                     ))}
                 </div>
