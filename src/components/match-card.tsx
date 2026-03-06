@@ -16,7 +16,7 @@ const placeholder = placeholderImage.placeholderImages.find(p => p.id === 'match
 function parseStartTime(timeStr: string): Date | null {
     if (!timeStr) return null;
     try {
-        const parsedDate = parse(timeStr, 'hh:mm:ss a dd-MM-yyyy', new Date());
+        const parsedDate = parse(timeStr, 'dd MMMM yyyy hh:mm a', new Date());
         return isNaN(parsedDate.getTime()) ? null : parsedDate;
     } catch (e) {
         console.error("Failed to parse date:", timeStr, e);
@@ -30,7 +30,7 @@ export function MatchCard({ match, onWatchLive }: MatchCardProps) {
   const startTime = parseStartTime(match.startTime);
   
   const formattedStartTime = startTime ? format(startTime, 'p') : 'TBA';
-  const canWatch = match.status === 'LIVE' && (match.dai_url || match.adfree_url);
+  const canWatch = match.status === 'LIVE' && match.streaming_sources.length > 0;
 
   useEffect(() => {
     setIsMounted(true);

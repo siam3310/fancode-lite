@@ -1,3 +1,17 @@
+export interface Squad {
+  name: string;
+  short_name: string;
+}
+
+export interface StreamingSource {
+  name: string;
+  url: string;
+}
+
+export interface Tour {
+  name: string;
+}
+
 export interface Match {
   match_id: number;
   title: string;
@@ -9,36 +23,15 @@ export interface Match {
   squad_a: Squad;
   squad_b: Squad;
   streaming_sources: StreamingSource[];
-  dai_url?: string;
-  // New fields from the new API
   event_category: string;
-  team_1: string;
-  team_2: string;
-  event_name: string;
   match_name: string;
-  adfree_url?: string;
-  src?: string;
-}
-
-export interface Tour {
-  tour_id: number;
-  name: string;
-}
-
-export interface Squad {
-  squad_id: number;
-  name: string;
-  short_name: string;
-  image_url: string;
-}
-
-export interface StreamingSource {
-  platform: string;
-  url: string;
+  event_name: string;
+  adfree_url?: string; // a default stream
 }
 
 export interface ApiData {
-  matches: any[]; // Using any to accommodate the change in structure temporarily
+  matches: any[];
+  last_updated?: string;
   meta?: {
     last_updated_at: string;
   };

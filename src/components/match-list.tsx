@@ -20,32 +20,34 @@ export function MatchList({ initialMatches, categories }: MatchListProps) {
   const [statusFilter, setStatusFilter] = useState('All Matches');
   const [categoryFilter, setCategoryFilter] = useState('All');
   const [selectedMatch, setSelectedMatch] = useState<Match | null>(null);
+  const [selectedStream, setSelectedStream] = useState<string | null>(null);
   const [playerType, setPlayerType] = useState<PlayerType>('clappr');
   const [playerUrl, setPlayerUrl] = useState<string>('');
 
-  useEffect(() => {
-    if (selectedMatch?.adfree_url) {
-      const url = selectedMatch.adfree_url;
-      if (url.includes('in-mc-fdlive.fancode.com')) {
-        let finalUrl = url.startsWith('//') ? 'https' + url : url;
-        finalUrl = finalUrl.replace('in-mc-fdlive.fancode.com', 'bd-mc-fdlive.fancode.com');
-        setPlayerUrl(finalUrl);
-        setPlayerType('clappr');
-      } else {
-        const iframeUrl = `https://onelineplayer.com/player.html?autoplay=true&autopause=false&muted=false&loop=false&url=${encodeURIComponent(url)}`;
-        setPlayerUrl(iframeUrl);
-        setPlayerType('iframe');
-      }
-    } else {
-      setPlayerUrl('');
-    }
-  }, [selectedMatch]);
-
-
   const handleWatchLive = (match: Match) => {
     setSelectedMatch(match);
+    const defaultStream = match.streaming_sources.find(s => s.name === 'Bangladesh')?.url || match.streaming_sources[0]?.url;
+    setSelectedStream(defaultStream || null);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
+  
+  useEffect(() => {
+    if (selectedStream) {
+        const url = selectedStream;
+        if (url.includes('fancode.com')) {
+            const finalUrl = url.startsWith('//') ? 'https' + url : url;
+            setPlayerUrl(finalUrl);
+            setPlayerType('clappr');
+        } else {
+            const iframeUrl = `https://onelineplayer.com/player.html?autoplay=true&autopause=false&muted=false&loop=false&url=${encodeURIComponent(url)}`;
+            setPlayerUrl(iframeUrl);
+            setPlayerType('iframe');
+        }
+    } else {
+        setPlayerUrl('');
+    }
+  }, [selectedStream]);
+
   
   const filteredMatches = useMemo(() => {
     return initialMatches.filter((match) => {
@@ -79,6 +81,22 @@ export function MatchList({ initialMatches, categories }: MatchListProps) {
           <div className="bg-[#181818] p-4 rounded-b-lg -mt-1">
             <h3 className="font-bold text-lg text-primary font-mono uppercase tracking-wider">{selectedMatch.match_name}</h3>
             <p className="text-sm text-zinc-400 font-mono uppercase tracking-wider">{selectedMatch.event_name}</p>
+            {selectedMatch.streaming_sources.length > 1 && (
+                <div className="flex items-center gap-2 mt-4">
+                    <p className="text-sm font-semibold text-zinc-300">Select Stream:</p>
+                    {selectedMatch.streaming_sources.map(source => (
+                        <Button
+                            key={source.name}
+                            size="sm"
+                            variant={selectedStream === source.url ? 'default' : 'secondary'}
+                            onClick={() => setSelectedStream(source.url)}
+                            className="text-xs"
+                        >
+                            {source.name}
+                        </Button>
+                    ))}
+                </div>
+            )}
           </div>
         </div>
       ) : null}

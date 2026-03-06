@@ -7,7 +7,8 @@ import { unstable_cache } from 'next/cache';
 function parseStartTime(timeStr: string): number {
     try {
         if (!timeStr) return 0;
-        const parsedDate = parse(timeStr, 'hh:mm:ss a dd-MM-yyyy', new Date());
+        // The format is "05 March 2026 05:00 AM"
+        const parsedDate = parse(timeStr, 'dd MMMM yyyy hh:mm a', new Date());
         return isNaN(parsedDate.getTime()) ? 0 : parsedDate.getTime();
     } catch (e) {
         console.error("Failed to parse date:", timeStr, e);
@@ -18,7 +19,7 @@ function parseStartTime(timeStr: string): number {
 const getMatches = unstable_cache(
   async () => {
     try {
-      const res = await fetch('https://raw.githubusercontent.com/drmlive/fancode-live-events/main/fancode.json', {
+      const res = await fetch('https://raw.githubusercontent.com/jitendra-unatti/fancode/refs/heads/main/data/fancode.json', {
         headers: {
           'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
         }
@@ -29,29 +30,38 @@ const getMatches = unstable_cache(
       }
       const data = await res.json();
       
-      const rawMatches = data.matches || data;
+      const rawMatches = data.matches || [];
 
-      const matches: Match[] = (Array.isArray(rawMatches) ? rawMatches : []).map((item: any) => ({
-        match_id: item.match_id,
-        title: item.title,
-        status: item.status,
-        start_time: parseStartTime(item.startTime),
-        startTime: item.startTime,
-        image_url: item.src,
-        tour: { tour_id: item.match_id, name: item.event_name },
-        squad_a: { squad_id: 1, name: item.team_1, short_name: item.team_1, image_url: '' },
-        squad_b: { squad_id: 2, name: item.team_2, short_name: item.team_2, image_url: '' },
-        streaming_sources: [],
-        dai_url: item.dai_url,
-        adfree_url: item.adfree_url,
-        event_category: item.event_category,
-        team_1: item.team_1,
-        team_2: item.team_2,
-        event_name: item.event_name,
-        match_name: item.match_name,
-      }));
+      const matches: Match[] = (Array.isArray(rawMatches) ? rawMatches : []).map((item: any) => {
+        
+        const streaming_sources = [];
+        if (item.STREAMING_CDN?.fancode_cdn && item.STREAMING_CDN.fancode_cdn !== "Unavailable") {
+            streaming_sources.push({ name: 'India', url: item.STREAMING_CDN.fancode_cdn });
+        }
+        if (item.STREAMING_CDN?.fancode_bd_cdn && item.STREAMING_CDN.fancode_bd_cdn !== "Unavailable") {
+            streaming_sources.push({ name: 'Bangladesh', url: item.STREAMING_CDN.fancode_bd_cdn });
+        }
 
-      return { ...data, matches: matches, meta: data.meta || { last_updated_at: new Date().toISOString()} };
+        return {
+          match_id: item.match_id,
+          title: item.title,
+          status: item.status,
+          startTime: item.startTime,
+          start_time: parseStartTime(item.startTime),
+          image_url: item.image,
+          tour: { name: item.tournament },
+          squad_a: { name: item.team?.[0]?.name || 'TBA', short_name: item.team?.[0]?.shortName || 'TBA' },
+          squad_b: { name: item.team?.[1]?.name || 'TBA', short_name: item.team?.[1]?.shortName || 'TBA' },
+          streaming_sources,
+          adfree_url: streaming_sources.find(s => s.name === 'Bangladesh')?.url || streaming_sources[0]?.url,
+          event_category: item.category,
+          match_name: item.title,
+          event_name: item.tournament,
+        } as Match;
+      });
+      
+      const responseData: ApiData = { matches, last_updated: data.last_updated };
+      return responseData;
     } catch (error) {
       console.error('Error fetching match data:', error);
       return null;
@@ -78,7 +88,7 @@ export default async function Home() {
   });
   
   const categories = [...new Set(allMatches.filter(match => match.event_category).map((match) => match.event_category))].sort();
-  const lastUpdatedAt = data?.meta?.last_updated_at ? format(new Date(data.meta.last_updated_at), "PPP p") : 'N/A';
+  const lastUpdatedAt = data?.last_updated || 'N/A';
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -95,7 +105,7 @@ export default async function Home() {
 
       <footer className="py-6 text-center text-sm text-muted-foreground">
         <p>Last updated: {lastUpdatedAt}</p>
-        <p className="mt-2">Copyright © 2024. Fancode API data provided by drmlive.</p>
+        <p className="mt-2">Copyright © 2024. Fancode API data provided by drmlive & jitendra-unatti.</p>
       </footer>
     </div>
   );
