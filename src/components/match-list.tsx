@@ -13,7 +13,7 @@ interface MatchListProps {
   categories: (string | undefined)[];
 }
 
-const statusFilters = ['All Matches', 'LIVE Now', 'UPCOMING'];
+const statusFilters = ['All Matches', 'LIVE Now'];
 
 type PlayerType = 'clappr' | 'iframe' | 'hls';
 
@@ -70,11 +70,10 @@ export function MatchList({ initialMatches, categories }: MatchListProps) {
   
   const filteredMatches = useMemo(() => {
     return initialMatches.filter((match) => {
-      const matchStatus = (match.status || '').toUpperCase();
+      const matchStatus = (match.status || '').trim().toUpperCase();
       const statusMatch =
         statusFilter === 'All Matches' ||
-        (statusFilter === 'LIVE Now' && matchStatus === 'LIVE') ||
-        (statusFilter === 'UPCOMING' && matchStatus === 'UPCOMING');
+        (statusFilter === 'LIVE Now' && matchStatus === 'LIVE');
       
       const categoryMatch = categoryFilter === 'All' || match.event_category === categoryFilter;
 
