@@ -34,12 +34,15 @@ export function MatchList({ initialMatches, categories }: MatchListProps) {
   useEffect(() => {
     if (selectedStream) {
         const url = selectedStream;
-        if (url.includes('fancode.com')) {
+        if (url.startsWith('data:')) {
+            setPlayerUrl(url);
+            setPlayerType('clappr');
+        } else if (url.includes('fancode.com')) {
             const finalUrl = url.startsWith('//') ? 'https' + url : url;
             setPlayerUrl(finalUrl);
             setPlayerType('clappr');
         } else {
-            const iframeUrl = `https://onelineplayer.com/player.html?autoplay=true&autopause=false&muted=false&loop=false&url=${encodeURIComponent(url)}`;
+            const iframeUrl = `https://onelineplayer.com/player?autoplay=true&autopause=false&muted=true&loop=false&url=${encodeURIComponent(url)}&poster=&time=true&progressBar=true&overlay=true&muteButton=true&fullscreenButton=true&style=light&quality=auto&playButton=true`;
             setPlayerUrl(iframeUrl);
             setPlayerType('iframe');
         }
